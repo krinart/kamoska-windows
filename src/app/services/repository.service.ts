@@ -61,8 +61,11 @@ export class RepositoryService {
 
   addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
     const quote = this.quotes[quoteID];
+
+    const lastItemID = quote.items.length == 0 ? 1 : quote.items[quote.items.length-1].id;
+
     quote.items.push({
-        id: 1,
+        id: lastItemID+1,
         style,
         subStyle,
         dimensions,
@@ -74,9 +77,13 @@ export class RepositoryService {
     return quote;
   }
 
-  // deleteItem(): Quote {
-  //
-  // }
+  deleteItem(quoteID: number, itemID: number): Quote {
+    const quote = this.quotes[quoteID];
+    quote.items = quote.items.filter(item => item.id !== itemID);
+    this._updateQuote(quote);
+
+    return quote;
+  }
 
   private _readQuotes(): QuoteMap {
     const rawQuotes = localStorage.getItem(QUOTES_KEY);

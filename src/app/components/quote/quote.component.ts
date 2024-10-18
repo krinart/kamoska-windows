@@ -28,4 +28,8 @@ export class QuoteComponent {
     console.log('quote', this.quote);
   }
 
+  deleteItem(itemID: number) {
+    this.quote = this.repoService.deleteItem(this.quote!.id, itemID);
+  }
+
 }
