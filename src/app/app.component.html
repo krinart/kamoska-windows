@@ -44,16 +44,16 @@
       <div fxLayout="row">
         <div fxLayout="column" class="size-cell">
           <div>Width (Inches)</div>
-          <select>
-            <option>Please Select</option>
+          <select [formControl]="dimXControl">
+            <option value="">Please Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
           </select>
         </div>
         <div fxLayout="column" class="size-cell">
           <div>Height (Inches)</div>
-          <select>
-            <option>Please Select</option>
+          <select [formControl]="dimYControl">
+            <option value="">Please Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
           </select>
@@ -61,8 +61,8 @@
 
         <div fxLayout="column" class="size-cell" *ngIf="currentSubStyle.extraDimension !== undefined">
           <div>{{currentSubStyle.extraDimension}} (Inches)</div>
-          <select>
-            <option>Please Select</option>
+          <select [formControl]="dimZControl">
+            <option value="">Please Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
           </select>
@@ -74,3 +74,5 @@
   </div>
 
 </div>
+
+<button (click)="onNext()">Next</button>

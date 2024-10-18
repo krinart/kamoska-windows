@@ -30,7 +30,7 @@ export interface OtherSection {
 
 export interface QuoteItem {
     styleSection: StyleSection,
-    otherSection: OtherSection,
+    // otherSection: OtherSection,
     quantity: number,
 
 }
