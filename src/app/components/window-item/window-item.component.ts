@@ -39,6 +39,34 @@ export class WindowItemComponent {
     console.log('itemID', this.itemID);
 
     console.log('quotes', this.repoService.getQuotes());
+
+    if (this.itemID !== 0) {
+      const quote = this.repoService.getQuote(this.quoteID);
+
+      if (quote === undefined) {
+        this.router.navigate(['/']);
+        return;
+      }
+
+      const filteredItems = quote.items.filter(item => item.id === this.itemID);
+      console.log(filteredItems);
+      if (filteredItems.length !== 1) {
+        this.router.navigate(['/']);
+        return;
+      }
+
+      const item = filteredItems[0];
+
+      this.currentStyle = item.style;
+      this.currentSubStyle = item.subStyle;
+
+      this.dimXControl.setValue(String(item.dimensions[0]));
+      this.dimYControl.setValue(String(item.dimensions[1]));
+
+      if (item.dimensions.length == 3) {
+        this.dimZControl.setValue(String(item.dimensions[2]));
+      }
+    }
   }
 
   styleClick(style: Style) {
@@ -76,7 +104,7 @@ export class WindowItemComponent {
   }
 
   getSubStyleClass(subStyle: SubStyle): string {
-    if (this.currentSubStyle!== undefined && this.currentSubStyle.name === subStyle.name) {
+    if (this.currentSubStyle !== undefined && this.currentSubStyle.name === subStyle.name) {
       return 'selected';
     }
 
@@ -111,17 +139,21 @@ export class WindowItemComponent {
       return;
     }
 
+    const dimensions = [Number(this.dimXControl.value), Number(this.dimYControl.value)];
+    if (this.currentSubStyle!.extraDimension !== undefined) {
+      dimensions.push(Number(this.dimZControl.value));
+    }
+
     // Create new quote
     if (this.quoteID === 0) {
       const quote = this.repoService.createQuote(
         this.currentStyle!,
         this.currentSubStyle!,
-        [1, 2, 3],
+        dimensions,
         Color.White,
         1,
       );
 
-      // TODO: redirect
       this.router.navigate(['/quote', quote.id]);
 
       return;
@@ -133,7 +165,7 @@ export class WindowItemComponent {
         this.quoteID,
         this.currentStyle!,
         this.currentSubStyle!,
-        [1, 2, 3],
+        dimensions,
         Color.White,
         1,
       );
@@ -141,6 +173,16 @@ export class WindowItemComponent {
       return;
     }
 
+    this.repoService.updateItem(
+      this.quoteID,
+      this.itemID,
+      this.currentStyle!,
+      this.currentSubStyle!,
+      dimensions,
+      Color.White,
+      1,
+    )
+    this.router.navigate(['/quote', this.quoteID]);
 
   }
 

@@ -63,10 +63,14 @@ export class RepositoryService {
   addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
     const quote = this.quotes[quoteID];
 
-    const lastItemID = quote.items.length == 0 ? 1 : quote.items[quote.items.length-1].id;
+    let maxItemID = Math.max(...quote.items.map(item => item.id));
+
+    if (maxItemID === -Infinity) {
+      maxItemID = 0;
+    }
 
     quote.items.push({
-        id: lastItemID+1,
+        id: maxItemID+1,
         style,
         subStyle,
         dimensions,
@@ -76,6 +80,22 @@ export class RepositoryService {
 
     this._updateQuote(quote);
     return quote;
+  }
+
+  updateItem(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number) {
+    const quote = this.quotes[quoteID];
+    const itemIndex = quote.items.findIndex(item => item.id === itemID);
+
+    quote.items[itemIndex] = {
+      id: itemID,
+      style,
+      subStyle,
+      dimensions,
+      color,
+      quantity
+    };
+
+    localStorage.setItem(QUOTES_KEY, JSON.stringify(this.quotes));
   }
 
   deleteItem(quoteID: number, itemID: number): Quote {
