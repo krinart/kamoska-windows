@@ -1,0 +1,22 @@
+<div fxLayout="row" style="justify-content: center;">
+  <div class="quotes-wrap">
+
+    <div *ngFor="let quote of quotes">
+      <mat-divider></mat-divider>
+      <div><a [routerLink]="'/quote/'+quote.id">{{getQuoteDate(quote)}}</a></div>
+      <button mat-icon-button color="accent" class="ml-2" (click)="deleteQuote(quote.id)">
+        <mat-icon>delete</mat-icon>
+
+      </button>
+    </div>
+
+    <mat-divider class="mt-4"></mat-divider>
+
+    <button routerLink="/quote/new" class="mt-4" mat-fab extended color="warning">
+      <mat-icon>add</mat-icon>
+      New Quote
+    </button>
+
+  </div>
+
+</div>

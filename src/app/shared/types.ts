@@ -28,7 +28,8 @@ export interface QuoteItem {
 }
 
 export interface Quote {
-  id: number;
+  id: number,
+  createdAt: Date,
   items: QuoteItem[],
   tax: number,
   discount: number,

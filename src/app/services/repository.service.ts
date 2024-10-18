@@ -16,7 +16,6 @@ export class RepositoryService {
   constructor() {
     this.quotes = this._readQuotes();
 
-    // if (this.quotes.)
     this.maxQuoteID = Math.max(...Object.keys(this.quotes).map(Number));
 
     if (this.maxQuoteID === -Infinity) {
@@ -28,6 +27,7 @@ export class RepositoryService {
 
     const quote: Quote = {
       id: this.maxQuoteID + 1,
+      createdAt: new Date(),
       items: [{
         id: 1,
         style,
@@ -56,7 +56,8 @@ export class RepositoryService {
   }
 
   deleteQuote(quoteID: number) {
-
+    delete this.quotes[quoteID];
+    localStorage.setItem(QUOTES_KEY, JSON.stringify(this.quotes));
   }
 
   addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
