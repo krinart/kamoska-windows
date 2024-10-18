@@ -46,7 +46,7 @@ export class AppComponent {
     if (isScroll) {
       setTimeout(() => {
         this.scrollTo?.nativeElement.scrollIntoView({behavior: 'smooth'});
-      }, 10)
+      }, 100)
     }
   }
 }

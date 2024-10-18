@@ -20,12 +20,12 @@ export enum Color {
 export interface StyleSection {
     style: Style,
     subStyle: SubStyle,
+    dimensions: number[],
+    extraDimensionName: string|null,
 }
 
 export interface OtherSection {
     color: Color,
-    dimensions: number[],
-    extraDimensionName: string|null,
 }
 
 export interface QuoteItem {
