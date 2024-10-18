@@ -33,7 +33,7 @@
   <mat-divider class="mt-5"></mat-divider>
 
   <!-- Substyle -->
-  <div fxLayout="row" class="mt-5 info" style="">
+  <div fxLayout="row" class="mt-2 info">
     <div class="img-wrap" fxLayout="column">
       <img src="{{currentSubStyle?.sizeImageURL}}" alt="">
     </div>
@@ -44,28 +44,31 @@
       <div fxLayout="row">
         <div fxLayout="column" class="size-cell">
           <div>Width (Inches)</div>
-          <select [formControl]="dimXControl">
+          <select [formControl]="dimXControl" [ngClass]="{'error': isRequiredError(dimXControl)}">
             <option value="">Please Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
           </select>
+          <span class="error-message" *ngIf="isRequiredError(dimXControl)">This is a required field</span>
         </div>
         <div fxLayout="column" class="size-cell">
           <div>Height (Inches)</div>
-          <select [formControl]="dimYControl">
+          <select [formControl]="dimYControl" [ngClass]="{'error': isRequiredError(dimYControl)}">
             <option value="">Please Select</option>
             <option value="1">1</option>
             <option value="2">2</option>
           </select>
+          <span class="error-message" *ngIf="isRequiredError(dimYControl)">This is a required field</span>
         </div>
 
         <div fxLayout="column" class="size-cell" *ngIf="currentSubStyle.extraDimension !== undefined">
           <div>{{currentSubStyle.extraDimension}} (Inches)</div>
-          <select [formControl]="dimZControl">
+          <select [formControl]="dimZControl" [ngClass]="{'error': isRequiredError(dimZControl)}">
             <option value="">Please Select</option>
-            <option value="1">1</option>
             <option value="2">2</option>
+            <option value="1">1</option>
           </select>
+          <span class="error-message" *ngIf="isRequiredError(dimZControl)">This is a required field</span>
         </div>
 
 
@@ -75,4 +78,6 @@
 
 </div>
 
-<button (click)="onNext()">Next</button>
+<div *ngIf="this.currentSubStyle !== undefined">
+  <button (click)="onNext()">Next</button>
+</div>
