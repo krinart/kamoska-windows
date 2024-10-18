@@ -12,32 +12,24 @@ export interface Style {
 }
 
 export enum Color {
-    Black,
-    White,
-    Tan,
-}
-
-export interface StyleSection {
-    style: Style,
-    subStyle: SubStyle,
-    dimensions: number[],
-    extraDimensionName: string|null,
-}
-
-export interface OtherSection {
-    color: Color,
+  Black,
+  White,
+  Tan,
 }
 
 export interface QuoteItem {
-    styleSection: StyleSection,
-    // otherSection: OtherSection,
-    quantity: number,
-
+  style: Style,
+  subStyle: SubStyle,
+  dimensions: number[],
+  // extraDimensionName: string|null,
+  color: Color,
+  quantity: number,
 }
 
-export interface Cart {
-    items: QuoteItem[],
-    tax: number,
-    discount: number,
-    total: number,
+export interface Quote {
+  id: number;
+  items: QuoteItem[],
+  tax: number,
+  discount: number,
+  total: number,
 }
