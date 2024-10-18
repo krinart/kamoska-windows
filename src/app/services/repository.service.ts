@@ -50,7 +50,7 @@ export class RepositoryService {
     return Object.values(this.quotes);
   }
 
-  getQuote(quoteID: number): Quote|null {
+  getQuote(quoteID: number): Quote|undefined {
     return this.quotes[quoteID];
   }
 

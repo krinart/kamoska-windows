@@ -6,12 +6,14 @@ import { SiteComponent } from "./site.component";
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { WindowItemComponent } from "./components/window-item/window-item.component";
+import { QuoteComponent } from './components/quote/quote.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SiteComponent,
     WindowItemComponent,
+    QuoteComponent,
   ],
   imports: [
     AppMaterialModule,

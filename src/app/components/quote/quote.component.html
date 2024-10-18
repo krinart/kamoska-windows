@@ -1,0 +1,40 @@
+<div fxLayout="row" style="justify-content: center;">
+  <div *ngIf="this.quote !== undefined" class="quote-wrap">
+
+    <div fxLayout="row" class="quote-item-row">
+      <div>Item</div>
+      <div>Price</div>
+      <div>Quantity</div>
+      <div>Subtotal</div>
+    </div>
+
+
+
+    <div *ngFor="let item of this.quote.items">
+
+      <mat-divider></mat-divider>
+
+      <div class="quote-item-row" fxLayout="row">
+
+
+        <div>
+          {{item.style.name}}
+        </div>
+
+        <div>
+          1
+        </div>
+
+        <div>2</div>
+        <div>3</div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+
+
+
+</div>
