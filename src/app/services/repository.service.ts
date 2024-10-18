@@ -29,6 +29,7 @@ export class RepositoryService {
     const quote: Quote = {
       id: this.maxQuoteID + 1,
       items: [{
+        id: 1,
         style,
         subStyle,
         dimensions,
@@ -57,6 +58,25 @@ export class RepositoryService {
   deleteQuote(quoteID: number) {
 
   }
+
+  addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
+    const quote = this.quotes[quoteID];
+    quote.items.push({
+        id: 1,
+        style,
+        subStyle,
+        dimensions,
+        color,
+        quantity,
+      });
+
+    this._updateQuote(quote);
+    return quote;
+  }
+
+  // deleteItem(): Quote {
+  //
+  // }
 
   private _readQuotes(): QuoteMap {
     const rawQuotes = localStorage.getItem(QUOTES_KEY);

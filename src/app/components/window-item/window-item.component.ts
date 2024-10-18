@@ -2,7 +2,7 @@ import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {Styles} from "../../shared/styles";
 import {Color, Style, SubStyle} from "../../shared/types";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {RepositoryService} from "../../services/repository.service";
 
 @Component({
@@ -22,14 +22,21 @@ export class WindowItemComponent {
   @ViewChild('scrollTo')
   scrollTo?: ElementRef;
 
-  // quoteID: number;
-  // itemID: number;
+  quoteID: number = 0;
+  itemID: number = 0;
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private repoService: RepositoryService) {}
 
   ngOnInit(): void {
-    console.log('quoteID', this.route.snapshot.paramMap.get('quoteID'));
-    console.log('itemID', this.route.snapshot.paramMap.get('itemID'));
+    const quoteID = this.route.snapshot.paramMap.get('quoteID');
+    const itemID = this.route.snapshot.paramMap.get('itemID');
+
+    this.quoteID = Number(quoteID);
+    this.itemID = Number(itemID);
+
+    console.log('quoteID', this.quoteID);
+    console.log('itemID', this.itemID);
 
     console.log('quotes', this.repoService.getQuotes());
   }
@@ -104,13 +111,37 @@ export class WindowItemComponent {
       return;
     }
 
-    this.repoService.createQuote(
-      this.currentStyle!,
-      this.currentSubStyle!,
-      [1, 2, 3],
-      Color.White,
-      1,
-    );
+    // Create new quote
+    if (this.quoteID === 0) {
+      const quote = this.repoService.createQuote(
+        this.currentStyle!,
+        this.currentSubStyle!,
+        [1, 2, 3],
+        Color.White,
+        1,
+      );
+
+      // TODO: redirect
+      this.router.navigate(['/quote', quote.id]);
+
+      return;
+    }
+
+    // Create new item in existing quote
+    if (this.itemID === 0) {
+      this.repoService.addItemToQuote(
+        this.quoteID,
+        this.currentStyle!,
+        this.currentSubStyle!,
+        [1, 2, 3],
+        Color.White,
+        1,
+      );
+      this.router.navigate(['/quote', this.quoteID]);
+      return;
+    }
+
+
   }
 
   isRequiredError(formControl: FormControl) {

@@ -18,6 +18,7 @@ export enum Color {
 }
 
 export interface QuoteItem {
+  id: number;
   style: Style,
   subStyle: SubStyle,
   dimensions: number[],
