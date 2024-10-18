@@ -1,125 +1,106 @@
 import { Injectable } from '@angular/core';
-import {Color, Quote, Style, SubStyle} from "../shared/types";
-
-const QUOTES_KEY = 'QUOTES';
-
-type QuoteMap = {[id: number]: Quote};
+import {Color, Quote, QuoteItem, Style, SubStyle} from "../shared/types";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RepositoryService {
-
-  private quotes: QuoteMap = {};
-  private maxQuoteID: number;
+  private storage: Storage;
+  private readonly QUOTES_KEY = 'quotes';
 
   constructor() {
-    this.quotes = this._readQuotes();
+    this.storage = window.localStorage;
+  }
 
-    this.maxQuoteID = Math.max(...Object.keys(this.quotes).map(Number));
+  private saveQuotes(quotes: Quote[]): void {
+    this.storage.setItem(this.QUOTES_KEY, JSON.stringify(quotes));
+  }
 
-    if (this.maxQuoteID === -Infinity) {
-      this.maxQuoteID = 0;
-    }
+  private getStoredQuotes(): Quote[] {
+    const quotesString = this.storage.getItem(this.QUOTES_KEY);
+    return quotesString ? JSON.parse(quotesString) : [];
   }
 
   createQuote(style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
-
-    const quote: Quote = {
-      id: this.maxQuoteID + 1,
+    const quotes = this.getStoredQuotes();
+    const newQuote: Quote = {
+      id: Date.now(),
       createdAt: new Date(),
       items: [{
-        id: 1,
+        id: Date.now(),
         style,
         subStyle,
         dimensions,
         color,
-        quantity,
+        quantity
       }],
       tax: 0,
       discount: 0,
-      total: 0,
+      total: 0 // You might want to calculate this based on your business logic
     };
-
-    this._updateQuote(quote);
-    this.maxQuoteID += 1;
-
-    return quote;
+    quotes.push(newQuote);
+    this.saveQuotes(quotes);
+    return newQuote;
   }
 
   getQuotes(): Quote[] {
-    return Object.values(this.quotes);
+    return this.getStoredQuotes();
   }
 
-  getQuote(quoteID: number): Quote|undefined {
-    return this.quotes[quoteID];
+  getQuote(quoteID: number): Quote | undefined {
+    return this.getStoredQuotes().find(quote => quote.id === quoteID);
   }
 
-  deleteQuote(quoteID: number) {
-    delete this.quotes[quoteID];
-    localStorage.setItem(QUOTES_KEY, JSON.stringify(this.quotes));
+  deleteQuote(quoteID: number): void {
+    const quotes = this.getStoredQuotes().filter(quote => quote.id !== quoteID);
+    this.saveQuotes(quotes);
   }
 
   addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
-    const quote = this.quotes[quoteID];
+    const quotes = this.getStoredQuotes();
+    const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
+    if (quoteIndex === -1) throw new Error('Quote not found');
 
-    let maxItemID = Math.max(...quote.items.map(item => item.id));
-
-    if (maxItemID === -Infinity) {
-      maxItemID = 0;
-    }
-
-    quote.items.push({
-        id: maxItemID+1,
-        style,
-        subStyle,
-        dimensions,
-        color,
-        quantity,
-      });
-
-    this._updateQuote(quote);
-    return quote;
-  }
-
-  updateItem(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number) {
-    const quote = this.quotes[quoteID];
-    const itemIndex = quote.items.findIndex(item => item.id === itemID);
-
-    quote.items[itemIndex] = {
-      id: itemID,
+    const newItem: QuoteItem = {
+      id: Date.now(),
       style,
       subStyle,
       dimensions,
       color,
       quantity
     };
+    quotes[quoteIndex].items.push(newItem);
+    this.saveQuotes(quotes);
+    return quotes[quoteIndex];
+  }
 
-    localStorage.setItem(QUOTES_KEY, JSON.stringify(this.quotes));
+  updateItem(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
+    const quotes = this.getStoredQuotes();
+    const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
+    if (quoteIndex === -1) throw new Error('Quote not found');
+
+    const itemIndex = quotes[quoteIndex].items.findIndex(item => item.id === itemID);
+    if (itemIndex === -1) throw new Error('Item not found');
+
+    quotes[quoteIndex].items[itemIndex] = {
+      ...quotes[quoteIndex].items[itemIndex],
+      style,
+      subStyle,
+      dimensions,
+      color,
+      quantity
+    };
+    this.saveQuotes(quotes);
+    return quotes[quoteIndex];
   }
 
   deleteItem(quoteID: number, itemID: number): Quote {
-    const quote = this.quotes[quoteID];
-    quote.items = quote.items.filter(item => item.id !== itemID);
-    this._updateQuote(quote);
+    const quotes = this.getStoredQuotes();
+    const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
+    if (quoteIndex === -1) throw new Error('Quote not found');
 
-    return quote;
+    quotes[quoteIndex].items = quotes[quoteIndex].items.filter(item => item.id !== itemID);
+    this.saveQuotes(quotes);
+    return quotes[quoteIndex];
   }
-
-  private _readQuotes(): QuoteMap {
-    const rawQuotes = localStorage.getItem(QUOTES_KEY);
-
-    if (rawQuotes === null) {
-      return {};
-    }
-
-    return JSON.parse(rawQuotes);
-  }
-
-  private _updateQuote(quote: Quote) {
-    this.quotes[quote.id] = quote;
-    localStorage.setItem(QUOTES_KEY, JSON.stringify(this.quotes));
-  }
-
-
 }
