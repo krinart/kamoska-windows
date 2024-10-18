@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AppComponent} from "./app.component";
 import {WindowItemComponent} from "./components/window-item/window-item.component";
 import {QuoteComponent} from "./components/quote/quote.component";
 
 const routes: Routes = [
-  // { path: '', component: AppComponent},
   { path: '', redirectTo: '/quote/new', pathMatch: 'full' },
 
   { path: 'quote/new', component: WindowItemComponent },
