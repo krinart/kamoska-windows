@@ -25,6 +25,7 @@ export interface QuoteItem {
   // extraDimensionName: string|null,
   color: Color,
   quantity: number,
+  price: number,
 }
 
 export interface Quote {

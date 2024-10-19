@@ -28,6 +28,7 @@ export class RepositoryService {
       createdAt: new Date(),
       items: [{
         id: Date.now(),
+        price: 1,
         style,
         subStyle,
         dimensions,
@@ -63,6 +64,7 @@ export class RepositoryService {
 
     const newItem: QuoteItem = {
       id: Date.now(),
+      price: 1,
       style,
       subStyle,
       dimensions,

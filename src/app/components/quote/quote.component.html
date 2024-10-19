@@ -45,8 +45,11 @@
 
         </div>
 
-        <div>
-          1
+        <div fxLayout="row">
+          <div style="width: 60px;">
+            <b>${{item.price}}</b>
+          </div>
+          <mat-icon class="icon-button">edit</mat-icon>
         </div>
 
         <div fxLayout="row" class="quantity-wrap">
@@ -55,8 +58,8 @@
             {{item.quantity}}
           </div>
 
-          <mat-icon class="quantity-button" (click)="itemInc(item)">add</mat-icon>
-          <mat-icon class="quantity-button" (click)="itemDec(item)">remove</mat-icon>
+          <mat-icon class="icon-button" (click)="itemInc(item)">add</mat-icon>
+          <mat-icon class="icon-button" (click)="itemDec(item)">remove</mat-icon>
 
         </div>
         <div>3</div>
@@ -86,8 +89,5 @@
 
 
   </div>
-
-
-
 
 </div>
