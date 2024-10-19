@@ -9,7 +9,7 @@
         </a>
       </div>
       <div>
-        <b>Quote Created</b>: {{getQuoteDate(quote)}}
+        <b>Quote Created</b>: <span style="text-decoration: underline;">{{getQuoteDate(quote)}}</span>
       </div>
     </div>
 
@@ -46,23 +46,44 @@
         </div>
 
         <div fxLayout="row">
-          <div style="width: 60px;">
-            <b>${{item.price}}</b>
-          </div>
-          <mat-icon class="icon-button">edit</mat-icon>
+
+          <ng-container *ngIf="!itemPriceControls[item.id]; else editPrice">
+            <div style="width: 70px; font-size: 18px;">
+              <b>{{item.price | currency: 'USD' : 'symbol-narrow' : '.0-0'}}</b>
+            </div>
+            <mat-icon class="icon-button" (click)="startEditItemPrice(item)">edit</mat-icon>
+          </ng-container>
+
+          <ng-template #editPrice>
+
+            <div>
+              <input [formControl]="itemPriceControls[item.id]" style="width: 70px;">
+              <mat-icon class="icon-button ml-1" (click)="saveItemPrice(item)">check</mat-icon>
+              <mat-icon class="icon-button ml-1" (click)="cancelEditItemPrice(item)">cancel</mat-icon>
+
+              <div class="error-message" *ngIf="itemPriceControls[item.id].invalid && (itemPriceControls[item.id].dirty || itemPriceControls[item.id].touched)" class="error-message">
+                {{ getErrorMessage(item) }}
+              </div>
+            </div>
+
+          </ng-template>
+
         </div>
 
         <div fxLayout="row" class="quantity-wrap">
 
-          <div style="width: 30px;">
-            {{item.quantity}}
+          <div style="width: 30px; font-size: 18px;">
+            <b>{{item.quantity}}</b>
           </div>
 
           <mat-icon class="icon-button" (click)="itemInc(item)">add</mat-icon>
           <mat-icon class="icon-button" (click)="itemDec(item)">remove</mat-icon>
 
         </div>
-        <div>3</div>
+
+        <div style="font-size: 18px;">
+          <b>{{item.price*item.quantity | currency: 'USD' : 'symbol-narrow' : '.0-0'}}</b>
+        </div>
       </div>
 
       <div class="mt-3">

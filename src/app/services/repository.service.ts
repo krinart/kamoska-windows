@@ -97,8 +97,16 @@ export class RepositoryService {
   }
 
   updateItem(quoteID: number, item: QuoteItem): Quote {
-    return this.updateItemRaw(
-      quoteID, item.id, item.style, item.subStyle, item.dimensions, item.color, item.quantity);
+    const quotes = this.getStoredQuotes();
+    const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
+    if (quoteIndex === -1) throw new Error('Quote not found');
+
+    const itemIndex = quotes[quoteIndex].items.findIndex(i => i.id === item.id);
+    if (itemIndex === -1) throw new Error('Item not found');
+
+    quotes[quoteIndex].items[itemIndex] = item;
+    this.saveQuotes(quotes);
+    return quotes[quoteIndex];
   }
 
   deleteItem(quoteID: number, itemID: number): Quote {

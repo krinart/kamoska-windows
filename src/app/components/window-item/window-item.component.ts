@@ -44,6 +44,7 @@ export class WindowItemComponent {
       const quote = this.repoService.getQuote(this.quoteID);
 
       if (quote === undefined) {
+        console.log('Quote not found');
         this.router.navigate(['/']);
         return;
       }
@@ -51,7 +52,8 @@ export class WindowItemComponent {
       const filteredItems = quote.items.filter(item => item.id === this.itemID);
       console.log(filteredItems);
       if (filteredItems.length !== 1) {
-        this.router.navigate(['/']);
+        console.log('Item not found');
+        // this.router.navigate(['/']);
         return;
       }
 
