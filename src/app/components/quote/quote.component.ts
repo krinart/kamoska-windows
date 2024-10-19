@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RepositoryService} from "../../services/repository.service";
 import {Quote, QuoteItem} from "../../shared/types";
 import {DatePipe} from "@angular/common";
 import {AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators} from "@angular/forms";
+
+import { jsPDF } from "jspdf";
+
+
 
 @Component({
   selector: 'app-quote',
@@ -16,6 +20,8 @@ export class QuoteComponent {
   itemPriceControls: { [key: number]: FormControl } = {};
   discountControl?: FormControl;
   taxControl?: FormControl;
+
+  datepipe: DatePipe = new DatePipe('en-US');
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -40,8 +46,7 @@ export class QuoteComponent {
   }
 
   getQuoteDate(quote: Quote): string|null {
-    const datepipe: DatePipe = new DatePipe('en-US')
-    return datepipe.transform(quote.createdAt, 'dd MMMM, h:mm a');
+        return this.datepipe.transform(quote.createdAt, 'dd MMMM, h:mm a');
   }
 
   itemInc(item: QuoteItem) {
@@ -150,4 +155,104 @@ export class QuoteComponent {
     if (control.hasError('percentageRange')) return 'Percentage must be between 0 and 100';
     return '';
   }
+
+  async generatePDF() {
+    if (!this.quote) return;
+
+    const pdf = new jsPDF();
+    let yOffset = 20;
+
+    // Header
+    pdf.setFontSize(12);
+    pdf.text('Lake Wash Windows & Doors- Commercial', 14, yOffset);
+    pdf.text('740 SW 34th St', 14, yOffset + 5);
+    pdf.text('Renton, WA 98057-4814', 14, yOffset + 10);
+
+    yOffset += 25;
+
+    // Quote details
+    pdf.setFontSize(10);
+
+    pdf.text(`Created Date: ${this.datepipe.transform(this.quote.createdAt, 'dd MMMM, yyyy')}`, 14, yOffset);
+
+    yOffset += 10;
+
+    // Items
+    for (let i = 0; i < this.quote.items.length; i++) {
+      yOffset = await this.addItemToPDF(pdf, this.quote.items[i], i + 1, yOffset);
+    }
+
+    // Footer
+    pdf.setFontSize(12);
+    yOffset += 20;
+    pdf.text(`Grand Total (USD): $${this.quote.total.toFixed(2)}`, 14, yOffset);
+
+    pdf.save(`Quote_${this.quote.id}.pdf`);
+  }
+
+  private async addItemToPDF(pdf: jsPDF, item: QuoteItem, lineNumber: number, yOffset: number): Promise<number> {
+    if (yOffset > 250) {
+      pdf.addPage();
+      yOffset = 20;
+    }
+
+    const startY = yOffset;
+
+    pdf.setDrawColor(200);  // Light gray color for the rectangle
+
+    pdf.setFontSize(11);
+    pdf.text(`Line: ${lineNumber}`, 14, yOffset);
+    pdf.text(`Quantity: ${item.quantity}`, 50, yOffset);
+
+    yOffset += 10;
+
+    pdf.setFontSize(10);
+
+    // Add image
+    try {
+      const imgData = await this.getBase64Image(item.subStyle.imageURL);
+      pdf.addImage(imgData, 'PNG', 14, yOffset, 40, 40);
+    } catch (error) {
+      console.error('Error loading image:', error);
+    }
+
+    const itemDetails = [
+      `${item.style.name}, ${item.subStyle.name}`,
+      `Size = Net Frame: ${item.dimensions[0]}" x ${item.dimensions[1]}"`,
+      `Glass = SunCoat (Low-E)`,
+      `Hardware = Standard`,
+    ];
+
+    itemDetails.forEach((detail, index) => {
+      pdf.text(detail, 60, yOffset + 5 + (index * 5));
+    });
+
+    yOffset += Math.max(45, itemDetails.length * 5 + 5);
+
+    // Draw rectangle around the item
+    pdf.rect(10, startY - 5, 190, yOffset - startY + 10);
+
+    yOffset += 20;  // Add some space after the rectangle
+
+    return yOffset;
+  }
+
+  private getBase64Image(url: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'Anonymous';
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext('2d');
+        ctx!.drawImage(img, 0, 0);
+        resolve(canvas.toDataURL('image/png'));
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  }
+
+
 }
