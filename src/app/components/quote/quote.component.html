@@ -13,8 +13,6 @@
       </div>
     </div>
 
-
-
     <div fxLayout="row" class="quote-item-row header mt-5">
       <div>Item</div>
       <div></div>
@@ -62,7 +60,7 @@
               <mat-icon class="icon-button ml-1" (click)="cancelEditItemPrice(item)">cancel</mat-icon>
 
               <div class="error-message" *ngIf="itemPriceControls[item.id].invalid && (itemPriceControls[item.id].dirty || itemPriceControls[item.id].touched)" class="error-message">
-                {{ getErrorMessage(item) }}
+                <!--{{ getErrorMessage(item) }}-->
               </div>
             </div>
 
@@ -108,6 +106,48 @@
       Add Item
     </button>
 
+    <h3 class="mt-5">Summary</h3>
+
+    <div style="font-size: 19px;">
+
+      <div class="mt-2" fxLayout="row">
+        <span>Discount................</span>
+        <ng-container *ngIf="!discountControl; else editDiscount">
+          <span>{{quote.discount | currency: 'USD' : 'symbol-narrow' : '.0-0'}}</span>
+          <mat-icon class="icon-button ml-2" (click)="startEditDiscount()">edit</mat-icon>
+        </ng-container>
+        <ng-template #editDiscount>
+          <div>
+            <input [formControl]="discountControl!" style="width: 70px;">
+            <mat-icon class="icon-button ml-1" (click)="saveDiscount()">check</mat-icon>
+            <mat-icon class="icon-button ml-1" (click)="cancelEditDiscount()">cancel</mat-icon>
+            <div *ngIf="discountControl!.invalid && (discountControl!.dirty || discountControl!.touched)" class="error-message">
+              {{ getErrorMessage(discountControl!) }}
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="mt-1" fxLayout="row" >
+        <span>Tax ...................... </span>
+        <ng-container *ngIf="!taxControl; else editTax">
+          <span class="ml-2">{{quote.tax | percent}}</span>
+          <mat-icon class="icon-button ml-2" (click)="startEditTax()">edit</mat-icon>
+        </ng-container>
+        <ng-template #editTax>
+          <div>
+            <input [formControl]="taxControl!" style="width: 70px;">
+            <mat-icon class="icon-button ml-1" (click)="saveTax()">check</mat-icon>
+            <mat-icon class="icon-button ml-1" (click)="cancelEditTax()">cancel</mat-icon>
+            <div *ngIf="taxControl!.invalid && (taxControl!.dirty || taxControl!.touched)" class="error-message">
+              {{ getErrorMessage(taxControl!) }}
+            </div>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="mt-2">Total ..................... {{quote.total | currency}}</div>
+    </div>
 
   </div>
 

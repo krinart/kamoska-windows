@@ -3,10 +3,22 @@
 
     <div *ngFor="let quote of quotes">
       <mat-divider></mat-divider>
-      <div><a [routerLink]="'/quote/'+quote.id">{{getQuoteDate(quote)}}</a></div>
+      <div>
+        <a [routerLink]="'/quote/'+quote.id">
+          {{getQuoteDate(quote)}} - {{quote.total | currency}} ({{quote.items.length}}
+
+
+          <ng-container [ngPlural]="quote.items.length">
+            <ng-template ngPluralCase="=1">line</ng-template>
+            <ng-template ngPluralCase="other">lines</ng-template>
+          </ng-container>
+
+          )
+
+        </a>
+      </div>
       <button mat-icon-button color="accent" class="ml-2" (click)="deleteQuote(quote.id)">
         <mat-icon>delete</mat-icon>
-
       </button>
     </div>
 

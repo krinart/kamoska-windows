@@ -26,8 +26,7 @@ export class HomeComponent {
 
   getQuoteDate(quote: Quote): string|null {
     const datepipe: DatePipe = new DatePipe('en-US')
-    // return datepipe.transform(quote.createdAt, 'dd-MMM-YYYY HH:mm:ss');
-    return datepipe.transform(quote.createdAt, 'dd MMMM, h a');
+    return datepipe.transform(quote.createdAt, 'dd MMMM, h:mm a');
   }
 
 }
