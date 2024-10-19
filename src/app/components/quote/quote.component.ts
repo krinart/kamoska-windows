@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RepositoryService} from "../../services/repository.service";
-import {Quote} from "../../shared/types";
+import {Quote, QuoteItem} from "../../shared/types";
 import {DatePipe} from "@angular/common";
 
 @Component({
@@ -37,6 +37,18 @@ export class QuoteComponent {
     const datepipe: DatePipe = new DatePipe('en-US')
     // return datepipe.transform(quote.createdAt, 'dd-MMM-YYYY HH:mm:ss');
     return datepipe.transform(quote.createdAt, 'dd MMMM, h:mm a');
+  }
+
+  itemInc(item: QuoteItem) {
+    item.quantity += 1;
+    this.repoService.updateItem(this.quote!.id, item);
+  }
+
+  itemDec(item: QuoteItem) {
+    if (item.quantity > 1) {
+      item.quantity -= 1;
+      this.repoService.updateItem(this.quote!.id, item);
+    }
   }
 
 }

@@ -173,7 +173,7 @@ export class WindowItemComponent {
       return;
     }
 
-    this.repoService.updateItem(
+    this.repoService.updateItemRaw(
       this.quoteID,
       this.itemID,
       this.currentStyle!,
