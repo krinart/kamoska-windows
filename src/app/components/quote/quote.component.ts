@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RepositoryService} from "../../services/repository.service";
 import {Quote} from "../../shared/types";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-quote',
@@ -30,6 +31,12 @@ export class QuoteComponent {
 
   deleteItem(itemID: number) {
     this.quote = this.repoService.deleteItem(this.quote!.id, itemID);
+  }
+
+  getQuoteDate(quote: Quote): string|null {
+    const datepipe: DatePipe = new DatePipe('en-US')
+    // return datepipe.transform(quote.createdAt, 'dd-MMM-YYYY HH:mm:ss');
+    return datepipe.transform(quote.createdAt, 'dd MMMM, h:mm a');
   }
 
 }

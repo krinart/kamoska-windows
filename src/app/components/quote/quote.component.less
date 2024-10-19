@@ -2,7 +2,12 @@
   width: 900px;
 
   .quote-item-row {
-    :nth-child(1) {
+
+    &.header {
+      font-weight: bold;
+    }
+
+    >:nth-child(1) {
       width: 200px;
 
       img {
@@ -10,17 +15,17 @@
         //justify-content: center;
       }
     }
-    :nth-child(2) {
+    >:nth-child(2) {
       width: 300px;
       padding-left: 20px;
     }
-    :nth-child(3) {
+    >:nth-child(3) {
       width: 100px;
     }
-    :nth-child(4) {
+    >:nth-child(4) {
       width: 100px;
     }
-    :nth-child(5) {
+    >:nth-child(5) {
       width: 100px;
     }
   }

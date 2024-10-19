@@ -1,7 +1,21 @@
 <div fxLayout="row" style="justify-content: center;">
-  <div *ngIf="quote !== undefined" class="quote-wrap">
+  <div *ngIf="quote !== undefined" class="quote-wrap mt-3">
 
-    <div fxLayout="row" class="quote-item-row">
+    <div fxLayout="row">
+      <div style="width: 600px;">
+        <a mat-button href="/">
+          <mat-icon>arrow_back</mat-icon>
+          Back
+        </a>
+      </div>
+      <div>
+        <b>Quote Created</b>: {{getQuoteDate(quote)}}
+      </div>
+    </div>
+
+
+
+    <div fxLayout="row" class="quote-item-row header mt-5">
       <div>Item</div>
       <div></div>
       <div>Price</div>
@@ -20,8 +34,22 @@
           <img src="{{item.subStyle.imageURL}}" alt="">
         </div>
 
-        <div>
-          {{item.subStyle.name}}
+        <div style="font-size: 12px;">
+
+          <div style="font-size: 16px; text-decoration-color rgb(51, 51, 51)">{{item.subStyle.name}}</div>
+
+          <br>
+
+          <div><b>RO Width</b>: {{item.dimensions[0]}} "</div>
+          <div><b>RO Height</b>: {{item.dimensions[1]}} "</div>
+          <!--<div><b>RO Height</b>: 123</div>-->
+          <!--<div><b>RO Height</b>: 123</div>-->
+          <!--<div><b>RO Height</b>: 123</div>-->
+          <!--<div><b>RO Height</b>: 123</div>-->
+          <!--<div><b>RO Height</b>: 123</div>-->
+          <!--<div><b>RO Height</b>: 123</div>-->
+          <!--<div><b>RO Height</b>: 123</div>-->
+
         </div>
 
         <div>
