@@ -141,7 +141,7 @@
       <div class="mt-1" fxLayout="row" >
         <span>Tax ...................... </span>
         <ng-container *ngIf="!taxControl; else editTax">
-          <span class="ml-2">{{quote.taxAmount | currency}} ({{quote.tax | percent}})</span>
+          <span class="ml-2">{{quote.taxAmount | currency}} ({{quote.tax}}%)</span>
           <mat-icon class="icon-button ml-2" (click)="startEditTax()">edit</mat-icon>
         </ng-container>
         <ng-template #editTax>
