@@ -32,7 +32,9 @@ export interface Quote {
   id: number,
   createdAt: Date,
   items: QuoteItem[],
+  subtotal: number,
   tax: number,
+  taxAmount: number,
   discount: number,
   total: number,
 }

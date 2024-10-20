@@ -2,12 +2,20 @@
   <div *ngIf="quote !== undefined" class="quote-wrap mt-3">
 
     <div fxLayout="row">
-      <div style="width: 600px;">
+      <div style="width: 300px;">
         <a mat-button href="/">
           <mat-icon>arrow_back</mat-icon>
           Back
         </a>
       </div>
+
+      <div style="width: 300px;">
+        <button mat-raised-button (click)="generatePDF()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          Download PDF
+        </button>
+      </div>
+
       <div>
         <b>Quote Created</b>: <span style="text-decoration: underline;">{{getQuoteDate(quote)}}</span>
       </div>
@@ -110,6 +118,8 @@
 
     <div style="font-size: 19px;">
 
+      <div class="mt-2">Subtotal ............... {{quote.subtotal | currency}}</div>
+
       <div class="mt-2" fxLayout="row">
         <span>Discount................</span>
         <ng-container *ngIf="!discountControl; else editDiscount">
@@ -131,7 +141,7 @@
       <div class="mt-1" fxLayout="row" >
         <span>Tax ...................... </span>
         <ng-container *ngIf="!taxControl; else editTax">
-          <span class="ml-2">{{quote.tax | percent}}</span>
+          <span class="ml-2">{{quote.taxAmount | currency}} ({{quote.tax | percent}})</span>
           <mat-icon class="icon-button ml-2" (click)="startEditTax()">edit</mat-icon>
         </ng-container>
         <ng-template #editTax>

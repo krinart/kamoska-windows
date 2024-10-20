@@ -23,11 +23,16 @@ export class RepositoryService {
     return quotesString ? JSON.parse(quotesString) : [];
   }
 
-  private calculateQuoteTotal(quote: Quote): number {
+  private updateQuoteTotal(quote: Quote) {
     const itemsTotal = quote.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const subtotal = itemsTotal - quote.discount;
-    const total = subtotal + (subtotal * quote.tax);
-    return Number(total.toFixed(2)); // Round to 2 decimal places
+    const tax = (subtotal * quote.tax)
+    const total = subtotal + tax;
+
+    quote.subtotal = Number(itemsTotal.toFixed(2));
+    quote.taxAmount = Number(tax.toFixed(2));
+    quote.total = Number(total.toFixed(2));
+    // return Number(total.toFixed(2)); // Round to 2 decimal places
   }
 
   createQuote(style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number): Quote {
@@ -45,10 +50,12 @@ export class RepositoryService {
         quantity
       }],
       tax: DEFAULT_SALES_TAX,
+      taxAmount: 0,
+      subtotal: 0,
       discount: 0,
       total: 0 // You might want to calculate this based on your business logic
     };
-    newQuote.total = this.calculateQuoteTotal(newQuote);
+    this.updateQuoteTotal(newQuote);
     quotes.push(newQuote);
     this.saveQuotes(quotes);
     return newQuote;
@@ -82,7 +89,7 @@ export class RepositoryService {
       quantity
     };
     quotes[quoteIndex].items.push(newItem);
-    quotes[quoteIndex].total = this.calculateQuoteTotal(quotes[quoteIndex]);
+    this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
   }
@@ -103,7 +110,7 @@ export class RepositoryService {
       color,
       quantity
     };
-    quotes[quoteIndex].total = this.calculateQuoteTotal(quotes[quoteIndex]);
+    this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
   }
@@ -117,7 +124,7 @@ export class RepositoryService {
     if (itemIndex === -1) throw new Error('Item not found');
 
     quotes[quoteIndex].items[itemIndex] = item;
-    quotes[quoteIndex].total = this.calculateQuoteTotal(quotes[quoteIndex]);
+    this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
   }
@@ -128,7 +135,7 @@ export class RepositoryService {
     if (quoteIndex === -1) throw new Error('Quote not found');
 
     quotes[quoteIndex].items = quotes[quoteIndex].items.filter(item => item.id !== itemID);
-    quotes[quoteIndex].total = this.calculateQuoteTotal(quotes[quoteIndex]);
+    this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
   }
@@ -139,7 +146,7 @@ export class RepositoryService {
     if (quoteIndex === -1) throw new Error('Quote not found');
 
     quotes[quoteIndex].tax = tax;
-    quotes[quoteIndex].total = this.calculateQuoteTotal(quotes[quoteIndex]);
+    this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
   }
@@ -150,7 +157,7 @@ export class RepositoryService {
     if (quoteIndex === -1) throw new Error('Quote not found');
 
     quotes[quoteIndex].discount = discount;
-    quotes[quoteIndex].total = this.calculateQuoteTotal(quotes[quoteIndex]);
+    this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
   }
