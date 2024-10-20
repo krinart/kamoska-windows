@@ -46,16 +46,16 @@
         <div fxLayout="row">
 
           <ng-container *ngIf="!itemPriceControls[item.id]; else editPrice">
-            <div style="width: 70px; font-size: 18px;">
+            <div style="font-size: 18px;">
               <b>{{item.price | currency: 'USD' : 'symbol-narrow' : '.0-0'}}</b>
             </div>
-            <mat-icon class="icon-button" (click)="startEditItemPrice(item)">edit</mat-icon>
+            <mat-icon class="icon-button ml-2" (click)="startEditItemPrice(item)">edit</mat-icon>
           </ng-container>
 
           <ng-template #editPrice>
 
             <div>
-              <input [formControl]="itemPriceControls[item.id]" style="width: 70px;">
+              <input [formControl]="itemPriceControls[item.id]" style="width: 50px;">
               <mat-icon class="icon-button ml-1" (click)="saveItemPrice(item)">check</mat-icon>
               <mat-icon class="icon-button ml-1" (click)="cancelEditItemPrice(item)">cancel</mat-icon>
 
@@ -70,11 +70,11 @@
 
         <div fxLayout="row" class="quantity-wrap">
 
-          <div style="width: 30px; font-size: 18px;">
+          <div style="font-size: 18px;">
             <b>{{item.quantity}}</b>
           </div>
 
-          <mat-icon class="icon-button" (click)="itemInc(item)">add</mat-icon>
+          <mat-icon class="icon-button ml-2" (click)="itemInc(item)">add</mat-icon>
           <mat-icon class="icon-button" (click)="itemDec(item)">remove</mat-icon>
 
         </div>

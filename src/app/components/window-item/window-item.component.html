@@ -32,7 +32,7 @@
 
   <mat-divider class="mt-5"></mat-divider>
 
-  <!-- Substyle -->
+  <!-- Dimensions-->
   <div fxLayout="row" class="mt-2 info">
     <div class="img-wrap" fxLayout="column">
       <img src="{{currentSubStyle.sizeImageURL}}" alt="">
@@ -76,9 +76,10 @@
     </div>
   </div>
 
+  <div fxLayout="row" style="justify-content: center;">
+    <button mat-raised-button (click)="onNext()">Save</button>
+  </div>
+
+
 </div>
 
-<!--<div *ngIf="this.currentSubStyle !== undefined">-->
-<div>
-  <button mat-raised-button (click)="onNext()">Next</button>
-</div>
