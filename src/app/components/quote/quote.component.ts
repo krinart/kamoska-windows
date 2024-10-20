@@ -185,7 +185,10 @@ export class QuoteComponent {
     // Footer
     pdf.setFontSize(12);
     yOffset += 20;
-    pdf.text(`Grand Total (USD): $${this.quote.total.toFixed(2)}`, 14, yOffset);
+    pdf.text(`Subtotal: $${this.quote.subtotal.toFixed(2)}`, 14, yOffset);
+    pdf.text(`Discount: $${this.quote.discount.toFixed(2)}`, 14, yOffset+7);
+    pdf.text(`Tax: $${this.quote.taxAmount.toFixed(2)} (${this.quote.tax}%)`, 14, yOffset+14);
+    pdf.text(`Total: $${this.quote.total.toFixed(2)}`, 14, yOffset+21);
 
     pdf.save(`Quote_${this.quote.id}.pdf`);
   }

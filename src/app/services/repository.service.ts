@@ -145,7 +145,7 @@ export class RepositoryService {
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
 
-    quotes[quoteIndex].tax = tax;
+    quotes[quoteIndex].tax = Number(tax);
     this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
@@ -156,7 +156,7 @@ export class RepositoryService {
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
 
-    quotes[quoteIndex].discount = discount;
+    quotes[quoteIndex].discount = Number(discount);
     this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];
