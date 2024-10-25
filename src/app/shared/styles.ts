@@ -1,5 +1,5 @@
 import { Style } from "./types";
-t
+
 
 export const Styles: Style[] = [
   {
