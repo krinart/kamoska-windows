@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {RepositoryService} from "../../services/repository.service";
 import {Quote, QuoteItem} from "../../shared/types";
 import {DatePipe} from "@angular/common";
+import {CurrencyPipe} from "@angular/common";
 import {AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators} from "@angular/forms";
 
 import { jsPDF } from "jspdf";
@@ -22,6 +23,7 @@ export class QuoteComponent {
   taxControl?: FormControl;
 
   datepipe: DatePipe = new DatePipe('en-US');
+  currency: CurrencyPipe = new CurrencyPipe('en-US');
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -68,7 +70,7 @@ export class QuoteComponent {
   saveItemPrice(item: QuoteItem) {
     const control = this.itemPriceControls[item.id];
     if (control && control.valid) {
-      item.price = control.value;
+      item.price = Number(control.value);
       this.updateQuoteItem(item);
       this.cancelEditItemPrice(item);
     }
@@ -185,10 +187,10 @@ export class QuoteComponent {
     // Footer
     pdf.setFontSize(12);
     yOffset += 20;
-    pdf.text(`Subtotal: $${this.quote.subtotal.toFixed(2)}`, 14, yOffset);
-    pdf.text(`Discount: $${this.quote.discount.toFixed(2)}`, 14, yOffset+7);
-    pdf.text(`Tax: $${this.quote.taxAmount.toFixed(2)} (${this.quote.tax}%)`, 14, yOffset+14);
-    pdf.text(`Total: $${this.quote.total.toFixed(2)}`, 14, yOffset+21);
+    pdf.text(`Subtotal: ${this.formatPrice(this.quote.subtotal)}`, 14, yOffset);
+    pdf.text(`Discount: ${this.formatPrice(this.quote.discount)}`, 14, yOffset+7);
+    pdf.text(`Tax: ${this.formatPrice(this.quote.taxAmount)} (${this.quote.tax}%)`, 14, yOffset+14);
+    pdf.text(`Total: ${this.formatPrice(this.quote.total)}`, 14, yOffset+21);
 
     pdf.save(`Quote_${this.quote.id}.pdf`);
   }
@@ -205,11 +207,13 @@ export class QuoteComponent {
 
     pdf.setFontSize(11);
     pdf.text(`Line: ${lineNumber}`, 14, yOffset);
-    pdf.text(`Quantity: ${item.quantity}`, 50, yOffset);
+    pdf.text(`Price Per Unit: ${this.formatPrice(item.price)}`, 55, yOffset);
+    pdf.text(`Quantity: ${item.quantity}`, 120, yOffset);
+    pdf.text(`Subtotal: ${this.formatPrice(item.quantity * item.price)}`, 165, yOffset);
 
     yOffset += 10;
 
-    pdf.setFontSize(10);
+
 
     // Add image
     try {
@@ -219,18 +223,25 @@ export class QuoteComponent {
       console.error('Error loading image:', error);
     }
 
+    pdf.setFontSize(12);
+    pdf.text(`${item.style.name}, ${item.subStyle.name}`, 60, yOffset + 5);
+
+
+    yOffset += 12;
+
+    pdf.setFontSize(10);
     const itemDetails = [
-      `${item.style.name}, ${item.subStyle.name}`,
-      `Size = Net Frame: ${item.dimensions[0]}" x ${item.dimensions[1]}"`,
-      `Glass = SunCoat (Low-E)`,
-      `Hardware = Standard`,
+      `Rough Opening: ${item.dimensions[0]}" x ${item.dimensions[1]}"`,
+      // `Glass = SunCoat (Low-E)`,
+      // `Hardware = Standard`,
     ];
 
+    pdf.setFontSize(10);
     itemDetails.forEach((detail, index) => {
       pdf.text(detail, 60, yOffset + 5 + (index * 5));
     });
 
-    yOffset += Math.max(45, itemDetails.length * 5 + 5);
+    yOffset += Math.max(30, itemDetails.length * 5 + 5);
 
     // Draw rectangle around the item
     pdf.rect(10, startY - 5, 190, yOffset - startY + 10);
@@ -238,6 +249,10 @@ export class QuoteComponent {
     yOffset += 20;  // Add some space after the rectangle
 
     return yOffset;
+  }
+
+  formatPrice(price: number): string|null {
+    return this.currency.transform(price, 'USD', 'symbol-narrow', '.0');
   }
 
   private getBase64Image(url: string): Promise<string> {
