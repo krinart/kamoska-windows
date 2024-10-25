@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sacred-garden-courses-web": {
+    "kamoska-windows": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/sacred-garden-courses-web",
+            "outputPath": "dist/kamoska-windows",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -41,7 +41,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "sacred-garden-courses-web:build:production"
+              "browserTarget": "kamoska-windows:build:production"
             },
             "development": {
-              "browserTarget": "sacred-garden-courses-web:build:development"
+              "browserTarget": "kamoska-windows:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "sacred-garden-courses-web:build"
+            "browserTarget": "kamoska-windows:build"
           }
         },
         "test": {
