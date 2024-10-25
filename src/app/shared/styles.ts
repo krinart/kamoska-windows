@@ -8,19 +8,19 @@ export const Styles: Style[] = [
     subStyles: [
       {
         name: "Picture Window",
-        imageURL: "/assets/images/Picture-Windows.png",
-        sizeImageURL: "/assets/images/Sizes/Picture Window.jpg",
+        imageURL: "assets/images/Picture-Windows.png",
+        sizeImageURL: "assets/images/Sizes/Picture Window.jpg",
       },
       {
         name: "Gable Picture Window Four Sided Right",
-        imageURL: "/assets/images/Picture-Windows/Gable Picture Window Four Sided Right.png",
-        sizeImageURL: "/assets/images/Sizes/Gable Picture Window Four Sided Right.jpg",
+        imageURL: "assets/images/Picture-Windows/Gable Picture Window Four Sided Right.png",
+        sizeImageURL: "assets/images/Sizes/Gable Picture Window Four Sided Right.jpg",
         extraDimension: "Leg Height",
       },
       {
         name: "Gable Picture Window Four Sided Left",
-        imageURL: "/assets/images/Picture-Windows/Gable Picture Window Four Sided Left.png",
-        sizeImageURL: "/assets/images/Sizes/Gable Picture Window Four Sided Left.jpg",
+        imageURL: "assets/images/Picture-Windows/Gable Picture Window Four Sided Left.png",
+        sizeImageURL: "assets/images/Sizes/Gable Picture Window Four Sided Left.jpg",
         extraDimension: "Leg Height",
       },
       {
