@@ -195,5 +195,144 @@ export const Styles: Style[] = [
         sizeImageURL: "assets/images/Sizes/Triple Double Hung.jpg",
       },
     ],
+  },
+  {
+    name: "Casement Windows",
+    imageURL: "assets/images/Casement-Windows.png",
+    subStyles: [
+      {
+        name: "Casement Right",
+        imageURL: "assets/images/Casement-Windows/Casement-Right.png",
+        sizeImageURL: "assets/images/Sizes/Casement Right.png",
+      },
+      {
+        name: "Casement Left",
+        imageURL: "assets/images/Casement-Windows/Casement Left.png",
+        sizeImageURL: "assets/images/Sizes/Casement Left.png",
+      },
+      {
+        name: "Double Casement",
+        imageURL: "assets/images/Casement-Windows/Double Casement.png",
+        sizeImageURL: "assets/images/Sizes/Double Casement.png",
+      },
+      {
+        name: "Double Casement Picture Window - 1/3 Sash",
+        imageURL: "assets/images/Casement-Windows/Double Casement Picture Window - 1:3 Sash.png",
+        sizeImageURL: "assets/images/Sizes/Double Casement Picture Window - 1:3 Sash.png",
+      },
+      {
+        name: "Double Casement Picture Window - 1/4 Sash",
+        imageURL: "assets/images/Casement-Windows/Double Casement Picture Window - 1:4 Sash.png",
+        sizeImageURL: "assets/images/Sizes/Double Casement Picture Window - 1:4 Sash.png",
+      },
+      {
+        name: "Top Casement Left",
+        imageURL: "assets/images/Casement-Windows/Top Casement Left.png",
+        sizeImageURL: "assets/images/Sizes/Top Casement Left.png",
+        extraDimension: "Casement Height",
+      },
+      {
+        name: "Top Casement Right",
+        imageURL: "assets/images/Casement-Windows/Top Casement Right.png",
+        sizeImageURL: "assets/images/Sizes/Top Casement Right.png",
+        extraDimension: "Casement Height",
+      },
+      {
+        name: "Bottom Casement Right",
+        imageURL: "assets/images/Casement-Windows/Bottom Casement Right.png",
+        sizeImageURL: "assets/images/Sizes/Bottom Casement Right.png",
+        extraDimension: "Casement Height",
+      },
+      {
+        name: "Bottom Casement Left",
+        imageURL: "assets/images/Casement-Windows/Bottom Casement Left.png",
+        sizeImageURL: "assets/images/Sizes/Bottom Casement Left.png",
+        extraDimension: "Casement Height",
+      },
+    ]
+  },
+  {
+    name: "Awning Windows",
+    imageURL: "assets/images/Awning-Windows.png",
+    subStyles: [
+      {
+        name: "Awning",
+        imageURL: "assets/images/Awning-Windows/Awning.png",
+        sizeImageURL: "assets/images/Sizes/Awning.png",
+      },
+      {
+        name: "Double Awning",
+        imageURL: "assets/images/Awning-Windows/Double Awning.png",
+        sizeImageURL: "assets/images/Sizes/Double Awning.png",
+      },
+      {
+        name: "Double Awning Picture Window - 1/3 Sash",
+        imageURL: "assets/images/Awning-Windows/Double Awning Picture Window - 1:3 Sash.png",
+        sizeImageURL: "assets/images/Sizes/Double Awning Picture Window - 1:3 Sash.png",
+      },
+      {
+        name: "Double Awning Picture Window 1/4 Sash",
+        imageURL: "assets/images/Awning-Windows/Double Awning Picture Window 1:4 Sash.png",
+        sizeImageURL: "assets/images/Sizes/Double Awning Picture Window 1:4 Sash.png",
+      },
+      {
+        name: "Top Awning",
+        imageURL: "assets/images/Awning-Windows/Top Awning.png",
+        sizeImageURL: "assets/images/Sizes/Top Awning.png",
+        extraDimension: "Awning Height",
+      },
+      {
+        name: "Bottom Awning",
+        imageURL: "assets/images/Awning-Windows/Bottom Awning.png",
+        sizeImageURL: "assets/images/Sizes/Bottom Awning.png",
+        extraDimension: "Awning Height",
+      },
+    ]
+  },
+  {
+    name: "Doors",
+    imageURL: "assets/images/Doors.png",
+    subStyles: [
+      {
+        name: "Two Panel Sliding Door - XO",
+        imageURL: "assets/images/Doors/Two Panel Sliding Door - XO.png",
+        sizeImageURL: "assets/images/Sizes/Two Panel Sliding Door - XO.jpg",
+      },
+      {
+        name: "Two Panel Sliding Door - OX",
+        imageURL: "assets/images/Doors/Two Panel Sliding Door - OX.png",
+        sizeImageURL: "assets/images/Sizes/Two Panel Sliding Door - OX.jpg",
+      },
+      {
+        name: "Three Panel Sliding Door - XOO",
+        imageURL: "assets/images/Doors/Three Panel Sliding Door - XOO.png",
+        sizeImageURL: "assets/images/Sizes/Three Panel Sliding Door - XOO.jpg",
+      },
+      {
+        name: "Three Panel Sliding Door - OOX",
+        imageURL: "assets/images/Doors/Three Panel Sliding Door - OOX.png",
+        sizeImageURL: "assets/images/Sizes/Three Panel Sliding Door - OOX.jpg",
+      },
+      {
+        name: "Three Panel Sliding Door - O/XO",
+        imageURL: "assets/images/Doors/Three Panel Sliding Door - O:XO.png",
+        sizeImageURL: "assets/images/Sizes/Three Panel Sliding Door - O:XO.jpg",
+      },
+      {
+        name: "Three Panel Sliding Door - OX/O",
+        imageURL: "assets/images/Doors/Three Panel Sliding Door - OX:O.png",
+        sizeImageURL: "assets/images/Sizes/Three Panel Sliding Door - OX:O.jpg",
+      },
+      {
+        name: "Four Panel Sliding Door - OXXO - Left",
+        imageURL: "assets/images/Doors/Four Panel Sliding Door - OXXO - Left.png",
+        sizeImageURL: "assets/images/Sizes/Four Panel Sliding Door - OXXO - Left.png",
+      },
+      {
+        name: "Four Panel Sliding Door - OXXO - Right",
+        imageURL: "assets/images/Doors/Four Panel Sliding Door - OXXO - Right.png",
+        sizeImageURL: "assets/images/Sizes/Four Panel Sliding Door - OXXO - Right.png",
+      },
+    ]
   }
 ];
