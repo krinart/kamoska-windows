@@ -179,7 +179,7 @@ export class QuoteComponent {
 
     try {
       const imgData = await this.getBase64Image('assets/images/Green-View-Logo.png');
-      pdf.addImage(imgData, 'PNG', 134, yOffset-18, 60, 40);
+      pdf.addImage(imgData, 'PNG', 144, yOffset-18, 50, 50);
     } catch (error) {
       console.error('Error loading image:', error);
     }
