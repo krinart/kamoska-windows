@@ -22,10 +22,17 @@ export interface QuoteItem {
   style: Style,
   subStyle: SubStyle,
   dimensions: number[],
-  // extraDimensionName: string|null,
   color: Color,
   quantity: number,
   price: number,
+
+  glassType: string,
+  glassOA: string,
+  glassThickness: string,
+  glassSpaceColor: string,
+  frameType: string,
+  gridType: string,
+  gridSize: string,
 }
 
 export interface Quote {

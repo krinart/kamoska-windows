@@ -19,6 +19,14 @@ export class WindowItemComponent {
   dimYControl = new FormControl("", [Validators.required]);
   dimZControl = new FormControl("");
 
+  glassType = new FormControl("");
+  glassOA = new FormControl("");
+  glassThickness = new FormControl("");
+  glassSpaceColor = new FormControl("");
+  frameType = new FormControl("");
+  gridType = new FormControl("");
+  gridSize = new FormControl("");
+
   @ViewChild('scrollTo')
   scrollTo?: ElementRef;
 
@@ -68,6 +76,15 @@ export class WindowItemComponent {
       if (item.dimensions.length == 3) {
         this.dimZControl.setValue(String(item.dimensions[2]));
       }
+
+      console.log(item.glassType);
+      this.glassType.setValue(item.glassType);
+      this.glassOA.setValue(item.glassOA);
+      this.glassThickness.setValue(item.glassThickness);
+      this.glassSpaceColor.setValue(item.glassSpaceColor);
+      this.frameType.setValue(item.frameType);
+      this.gridType.setValue(item.gridType);
+      this.gridSize.setValue(item.gridSize);
     }
   }
 
@@ -131,7 +148,39 @@ export class WindowItemComponent {
     this.dimZControl.updateValueAndValidity();
   }
 
+  frameClick(value: string) {
+    this.frameType.setValue(value);
+  }
+
+  getFrameClass(value: string) {
+    if (this.frameType.getRawValue() === value) {
+      return 'selected';
+    }
+
+    return '';
+  }
+
+  gridClick(value: string) {
+    this.gridType.setValue(value);
+  }
+
+  getGridClass(value: string) {
+    if (this.gridType.getRawValue() === value) {
+      return 'selected';
+    }
+
+    return '';
+  }
+
   onNext() {
+    console.log(this.glassType.getRawValue());
+    console.log(this.glassOA.getRawValue());
+    console.log(this.glassThickness.getRawValue());
+    console.log(this.glassSpaceColor.getRawValue());
+    console.log(this.frameType.getRawValue());
+    console.log(this.gridType.getRawValue());
+    console.log(this.gridSize.getRawValue());
+
     const isFormValid = this.dimXControl.valid && this.dimYControl.valid && this.dimZControl.valid;
 
     if (!isFormValid) {
@@ -154,6 +203,13 @@ export class WindowItemComponent {
         dimensions,
         Color.White,
         1,
+        this.glassType.getRawValue()!,
+        this.glassOA.getRawValue()!,
+        this.glassThickness.getRawValue()!,
+        this.glassSpaceColor.getRawValue()!,
+        this.frameType.getRawValue()!,
+        this.gridType.getRawValue()!,
+        this.gridSize.getRawValue()!,
       );
 
       this.router.navigate(['/quote', quote.id]);
@@ -170,6 +226,13 @@ export class WindowItemComponent {
         dimensions,
         Color.White,
         1,
+        this.glassType.getRawValue()!,
+        this.glassOA.getRawValue()!,
+        this.glassThickness.getRawValue()!,
+        this.glassSpaceColor.getRawValue()!,
+        this.frameType.getRawValue()!,
+        this.gridType.getRawValue()!,
+        this.gridSize.getRawValue()!,
       );
       this.router.navigate(['/quote', this.quoteID]);
       return;
@@ -183,6 +246,13 @@ export class WindowItemComponent {
       dimensions,
       Color.White,
       1,
+      this.glassType.getRawValue()!,
+      this.glassOA.getRawValue()!,
+      this.glassThickness.getRawValue()!,
+      this.glassSpaceColor.getRawValue()!,
+      this.frameType.getRawValue()!,
+      this.gridType.getRawValue()!,
+      this.gridSize.getRawValue()!,
     )
     this.router.navigate(['/quote', this.quoteID]);
 
