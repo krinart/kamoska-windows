@@ -74,6 +74,45 @@
       color: red;
     }
   }
+}
+
+mat-radio-group {
+  ::ng-deep .mdc-form-field label {
+    margin-top: 6px;
+  }
+}
+
+.frame-wrap {
+  gap: 40px;
+
+  > div {
+    width: 150px;
+    align-items: center;
+    border: 2px solid #fff;
+    box-shadow: 0px 0px 5px rgba(204,204,204,.65);
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      background: #DDEFFE;
+      border-color: #0086FF;
+      background: lightgray;
+      border-color: gray;
+    }
+
+    &.selected {
+      background: lightgray;
+      border-color: gray;
+      background: #DDEFFE;
+      border-color: #0086FF;
+    }
+
+    > div {
+      text-align: center;
+    }
 
 
+
+  }
 }
