@@ -232,9 +232,17 @@ export class QuoteComponent {
     pdf.setFontSize(10);
     const itemDetails = [
       `Rough Opening: ${item.dimensions[0]}" x ${item.dimensions[1]}"`,
-      // `Glass = SunCoat (Low-E)`,
-      // `Hardware = Standard`,
+      `Frame: ${item.frameType}`,
+      `Glass Type: ${item.glassType}`,
+      `Glass OA: ${item.glassOA}"`,
+      `Glass Thickness: ${item.glassThickness}"`,
+      `Glass Spacer Color: ${item.glassSpaceColor}`,
+      `Grid Type: ${item.gridType}`,
     ];
+
+    if (item.gridType != 'None') {
+      itemDetails.push(`Grid Size: ${item.gridSize}"`)
+    }
 
     pdf.setFontSize(10);
     itemDetails.forEach((detail, index) => {

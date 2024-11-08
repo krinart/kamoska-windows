@@ -65,7 +65,7 @@
             <div fxLayout="column" style="justify-content: center;"><b>Grid</b></div>
             <div fxLayout="column" class="ml-3">
               <div fxLayout="row">Type: {{item.gridType}}</div>
-              <div fxLayout="row">Size: {{item.gridSize}}"</div>
+              <div *ngIf="item.gridType != 'None'" fxLayout="row">Size: {{item.gridSize}}"</div>
             </div>
           </div>
 
@@ -181,7 +181,9 @@
 
     <br>
 
-    <button mat-raised-button (click)="generatePDF()">
+    <mat-divider class="mt-2"></mat-divider>
+
+    <button class="mt-4" mat-raised-button (click)="generatePDF()">
       <mat-icon>picture_as_pdf</mat-icon>
       Download PDF
     </button>

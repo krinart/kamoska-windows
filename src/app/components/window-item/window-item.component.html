@@ -201,7 +201,7 @@
 
         </div>
 
-        <div fxLayout="row" style="margin: 20px auto;">
+        <div fxLayout="row" *ngIf="gridType.getRawValue() != 'None' && gridType.getRawValue() != ''" style="margin: 20px auto;">
           <b class="mt-2">Size:</b>
 
           <mat-radio-group [formControl]="gridSize" class="ml-2">
