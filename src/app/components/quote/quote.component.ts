@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {RepositoryService} from "../../services/repository.service";
-import {Quote, QuoteItem} from "../../shared/types";
+import {DimensionValue, Quote, QuoteItem} from "../../shared/types";
 import {DatePipe} from "@angular/common";
 import {CurrencyPipe} from "@angular/common";
 import {AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators} from "@angular/forms";
@@ -158,6 +158,10 @@ export class QuoteComponent {
     return '';
   }
 
+  getDimensionString(dimesion: DimensionValue): string {
+    return dimesion.base + " " + dimesion.fraction;
+  }
+
   async generatePDF() {
     if (!this.quote) return;
 
@@ -166,18 +170,28 @@ export class QuoteComponent {
 
     // Header
     pdf.setFontSize(12);
-    pdf.text('Lake Wash Windows & Doors- Commercial', 14, yOffset);
-    pdf.text('740 SW 34th St', 14, yOffset + 5);
-    pdf.text('Renton, WA 98057-4814', 14, yOffset + 10);
+    pdf.text('Kamoska Company LLC', 14, yOffset);
+    pdf.text('19428 66th, Ave S, suite Q101', 14, yOffset + 5);
+    pdf.text('Kent, WA, 98032', 14, yOffset + 10);
+    pdf.text('(253) 364-9526', 14, yOffset + 15);
+    pdf.text('Kamoskacompany@gmail.com', 14, yOffset + 20);
+    pdf.text('www.greenview-windows.com', 14, yOffset + 25);
 
-    yOffset += 25;
+    try {
+      const imgData = await this.getBase64Image('assets/images/Green-View-Logo.png');
+      pdf.addImage(imgData, 'PNG', 134, yOffset-18, 60, 40);
+    } catch (error) {
+      console.error('Error loading image:', error);
+    }
+
+    yOffset += 40;
 
     // Quote details
     pdf.setFontSize(10);
 
     pdf.text(`Created Date: ${this.datepipe.transform(this.quote.createdAt, 'dd MMMM, yyyy')}`, 14, yOffset);
 
-    yOffset += 10;
+    yOffset += 20;
 
     // Items
     for (let i = 0; i < this.quote.items.length; i++) {
@@ -213,8 +227,6 @@ export class QuoteComponent {
 
     yOffset += 10;
 
-
-
     // Add image
     try {
       const imgData = await this.getBase64Image(item.subStyle.imageURL);
@@ -226,12 +238,18 @@ export class QuoteComponent {
     pdf.setFontSize(12);
     pdf.text(`${item.style.name}, ${item.subStyle.name}`, 60, yOffset + 5);
 
-
     yOffset += 12;
 
     pdf.setFontSize(10);
+
+    let RO = `${item.dimensions[0].base} ${item.dimensions[0].fraction}" x ${item.dimensions[1].base} ${item.dimensions[1].fraction}"`;
+
+    if (item.subStyle.extraDimension !== undefined) {
+      RO += ` x ${item.dimensions[2].base} ${item.dimensions[2].fraction}"`
+    }
+
     const itemDetails = [
-      `Rough Opening: ${item.dimensions[0]}" x ${item.dimensions[1]}"`,
+      `Rough Opening: ${RO}`,
       `Frame: ${item.frameType}`,
       `Glass Type: ${item.glassType}`,
       `Glass OA: ${item.glassOA}"`,

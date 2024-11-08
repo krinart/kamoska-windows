@@ -17,11 +17,16 @@ export enum Color {
   Tan,
 }
 
+export interface DimensionValue {
+  base: string,
+  fraction: string,
+}
+
 export interface QuoteItem {
   id: number;
   style: Style,
   subStyle: SubStyle,
-  dimensions: number[],
+  dimensions: DimensionValue[],
   color: Color,
   quantity: number,
   price: number,

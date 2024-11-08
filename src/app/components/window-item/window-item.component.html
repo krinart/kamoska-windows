@@ -51,31 +51,70 @@
       <div fxLayout="row">
         <div fxLayout="column" class="size-cell">
           <div>Width (Inches)</div>
-          <select [formControl]="dimXControl" [ngClass]="{'error': isRequiredError(dimXControl)}">
-            <option value="">Please Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
+
+          <div fxLayout="row">
+            <select [formControl]="dimXControl" [ngClass]="{'error': isRequiredError(dimXControl)}">
+              <option value="">Please Select</option>
+              <option *ngFor="let i of [].constructor(100); let idx = index" [value]="idx + 1">
+                {{ idx + 1 }}
+              </option>
+            </select>
+
+            <select [formControl]="dimXFractionControl" class="fraction">
+              <option value="0">0</option>
+              <option value="1/4">1/4</option>
+              <option value="1/2">1/2</option>
+              <option value="3/4">3/4</option>
+            </select>
+          </div>
+
+
           <span class="error-message" *ngIf="isRequiredError(dimXControl)">This is a required field</span>
         </div>
         <div fxLayout="column" class="size-cell">
           <div>Height (Inches)</div>
-          <select [formControl]="dimYControl" [ngClass]="{'error': isRequiredError(dimYControl)}">
-            <option value="">Please Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-          </select>
+
+          <div fxLayout="row">
+            <select [formControl]="dimYControl" [ngClass]="{'error': isRequiredError(dimYControl)}">
+              <option value="">Please Select</option>
+              <option *ngFor="let i of [].constructor(100); let idx = index" [value]="idx + 1">
+                {{ idx + 1 }}
+              </option>
+            </select>
+
+            <select [formControl]="dimYFractionControl" class="fraction">
+              <option value="0">0</option>
+              <option value="1/4">1/4</option>
+              <option value="1/2">1/2</option>
+              <option value="3/4">3/4</option>
+            </select>
+          </div>
+
+
           <span class="error-message" *ngIf="isRequiredError(dimYControl)">This is a required field</span>
         </div>
 
         <!--Size-->
         <div fxLayout="column" class="size-cell" *ngIf="currentSubStyle.extraDimension !== undefined">
           <div>{{currentSubStyle.extraDimension}} (Inches)</div>
-          <select [formControl]="dimZControl" [ngClass]="{'error': isRequiredError(dimZControl)}">
-            <option value="">Please Select</option>
-            <option value="2">2</option>
-            <option value="1">1</option>
-          </select>
+
+          <div fxLayout="row">
+            <select [formControl]="dimZControl" [ngClass]="{'error': isRequiredError(dimZControl)}">
+              <option value="">Please Select</option>
+              <option *ngFor="let i of [].constructor(100); let idx = index" [value]="idx + 1">
+                {{ idx + 1 }}
+              </option>
+            </select>
+
+            <select [formControl]="dimZFractionControl" class="fraction">
+              <option value="0">0</option>
+              <option value="1/4">1/4</option>
+              <option value="1/2">1/2</option>
+              <option value="3/4">3/4</option>
+            </select>
+          </div>
+
+
           <span class="error-message" *ngIf="isRequiredError(dimZControl)">This is a required field</span>
         </div>
 

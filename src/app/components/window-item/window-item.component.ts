@@ -1,7 +1,7 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 import {Styles} from "../../shared/styles";
-import {Color, Style, SubStyle} from "../../shared/types";
+import {Color, DimensionValue, Style, SubStyle} from "../../shared/types";
 import {ActivatedRoute, Router} from "@angular/router";
 import {RepositoryService} from "../../services/repository.service";
 
@@ -18,6 +18,10 @@ export class WindowItemComponent {
   dimXControl = new FormControl("", [Validators.required]);
   dimYControl = new FormControl("", [Validators.required]);
   dimZControl = new FormControl("");
+
+  dimXFractionControl = new FormControl("0");
+  dimYFractionControl = new FormControl("0");
+  dimZFractionControl = new FormControl("0");
 
   glassType = new FormControl("");
   glassOA = new FormControl("");
@@ -70,11 +74,14 @@ export class WindowItemComponent {
       this.currentStyle = item.style;
       this.currentSubStyle = item.subStyle;
 
-      this.dimXControl.setValue(String(item.dimensions[0]));
-      this.dimYControl.setValue(String(item.dimensions[1]));
+      this.dimXControl.setValue(String(item.dimensions[0].base));
+      this.dimXFractionControl.setValue(String(item.dimensions[0].fraction));
+      this.dimYControl.setValue(String(item.dimensions[1].base));
+      this.dimYFractionControl.setValue(String(item.dimensions[1].fraction));
 
       if (item.dimensions.length == 3) {
-        this.dimZControl.setValue(String(item.dimensions[2]));
+        this.dimZControl.setValue(String(item.dimensions[2].base));
+        this.dimZFractionControl.setValue(String(item.dimensions[2].fraction));
       }
 
       console.log(item.glassType);
@@ -190,9 +197,22 @@ export class WindowItemComponent {
       return;
     }
 
-    const dimensions = [Number(this.dimXControl.value), Number(this.dimYControl.value)];
+    const dimensions: DimensionValue[] = [
+      {
+        base: this.dimXControl.value!,
+        fraction: this.dimXFractionControl.value!,
+      },
+      {
+        base: this.dimYControl.value!,
+        fraction: this.dimYFractionControl.value!,
+      },
+    ];
+
     if (this.currentSubStyle!.extraDimension !== undefined) {
-      dimensions.push(Number(this.dimZControl.value));
+      dimensions.push({
+        base: this.dimZControl.value!,
+        fraction: this.dimZFractionControl.value!,
+      });
     }
 
     // Create new quote

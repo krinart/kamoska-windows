@@ -46,8 +46,9 @@
 
           <br>
 
-          <div><b>RO Width</b>: {{item.dimensions[0]}}"</div>
-          <div><b>RO Height</b>: {{item.dimensions[1]}}"</div>
+          <div><b>RO Width</b>: {{getDimensionString(item.dimensions[0])}}"</div>
+          <div><b>RO Height</b>: {{getDimensionString(item.dimensions[1])}}"</div>
+          <div *ngIf="item.subStyle.extraDimension != undefined"><b>RO {{item.subStyle.extraDimension}}</b>: {{getDimensionString(item.dimensions[2])}}"</div>
 
           <div class="mt-2"><b>Frame</b>: {{item.frameType}}</div>
 

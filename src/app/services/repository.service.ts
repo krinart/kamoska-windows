@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Color, Quote, QuoteItem, Style, SubStyle} from "../shared/types";
+import {Color, DimensionValue, Quote, QuoteItem, Style, SubStyle} from "../shared/types";
 
 const DEFAULT_SALES_TAX = 10;
 
@@ -35,7 +35,7 @@ export class RepositoryService {
     // return Number(total.toFixed(2)); // Round to 2 decimal places
   }
 
-  createQuote(style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
+  createQuote(style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
     const quotes = this.getStoredQuotes();
     const newQuote: Quote = {
       id: Date.now(),
@@ -81,7 +81,7 @@ export class RepositoryService {
     this.saveQuotes(quotes);
   }
 
-  addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
+  addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
     const quotes = this.getStoredQuotes();
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
@@ -108,7 +108,7 @@ export class RepositoryService {
     return quotes[quoteIndex];
   }
 
-  updateItemRaw(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: number[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
+  updateItemRaw(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
     const quotes = this.getStoredQuotes();
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
