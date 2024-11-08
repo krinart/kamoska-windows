@@ -46,8 +46,28 @@
 
           <br>
 
-          <div><b>RO Width</b>: {{item.dimensions[0]}} "</div>
-          <div><b>RO Height</b>: {{item.dimensions[1]}} "</div>
+          <div><b>RO Width</b>: {{item.dimensions[0]}}"</div>
+          <div><b>RO Height</b>: {{item.dimensions[1]}}"</div>
+
+          <div class="mt-2"><b>Frame</b>: {{item.frameType}}</div>
+
+          <div fxLayout="row" class="mt-2">
+            <div fxLayout="column" style="justify-content: center;"><b>Glass</b></div>
+            <div fxLayout="column" class="ml-2">
+              <div fxLayout="row">Type: {{item.glassType}}</div>
+              <div fxLayout="row">OA: {{item.glassOA}}"</div>
+              <div fxLayout="row">Thickness: {{item.glassThickness}}"</div>
+              <div fxLayout="row">Spacer Color: {{item.glassSpaceColor}}</div>
+            </div>
+          </div>
+
+          <div fxLayout="row" class="mt-2">
+            <div fxLayout="column" style="justify-content: center;"><b>Grid</b></div>
+            <div fxLayout="column" class="ml-3">
+              <div fxLayout="row">Type: {{item.gridType}}</div>
+              <div fxLayout="row">Size: {{item.gridSize}}"</div>
+            </div>
+          </div>
 
         </div>
 
