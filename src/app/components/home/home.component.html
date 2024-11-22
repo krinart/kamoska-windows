@@ -5,15 +5,20 @@
       <mat-divider></mat-divider>
       <div>
         <a [routerLink]="'/quote/'+quote.id">
-          {{getQuoteDate(quote)}} - {{quote.total | currency}} ({{quote.items.length}}
+
+          {{getQuoteTitle(quote)}}
+
+          <!-- {{getQuoteDate(quote)}} - {{quote.total | currency}} ({{quote.items.length}}
 
 
           <ng-container [ngPlural]="quote.items.length">
             <ng-template ngPluralCase="=1">line</ng-template>
             <ng-template ngPluralCase="other">lines</ng-template>
-          </ng-container>
+          </ng-container> 
 
           )
+
+          -->
 
         </a>
       </div>
