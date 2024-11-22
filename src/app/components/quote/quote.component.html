@@ -157,6 +157,24 @@
     </button>
 
     <h3 class="mt-5">
+      Comments
+      <ng-container *ngIf="!commentFormControl; else editCommentBtns">
+        <mat-icon class="icon-button ml-2" (click)="startCommentEdit()">edit</mat-icon>
+      </ng-container>
+      <ng-template #editCommentBtns>
+        <mat-icon class="icon-button ml-1" (click)="saveComment()">check</mat-icon>
+        <mat-icon class="icon-button ml-1" (click)="cancelCommentEdit()">cancel</mat-icon>
+      </ng-template>
+    </h3> 
+    
+    <div *ngIf="!commentFormControl; else editComment">
+      {{this.quote.comment}}
+    </div>
+    <ng-template #editComment>
+      <textarea [formControl]="commentFormControl!" style="width: 600px; height: 150px;"></textarea>
+    </ng-template>
+
+    <h3 class="mt-5">
       Customer Info
       <ng-container *ngIf="!customerEditing; else editCustomerBtns">
         <mat-icon class="icon-button ml-2" (click)="startCustomerEditing()">edit</mat-icon>
@@ -165,7 +183,6 @@
         <mat-icon class="icon-button ml-1" (click)="saveCustomerInfo()">check</mat-icon>
         <mat-icon class="icon-button ml-1" (click)="cancelCustomerEditing()">cancel</mat-icon>
       </ng-template>
-      
     </h3> 
     
     <div class="customer-info">

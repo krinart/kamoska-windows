@@ -49,6 +49,7 @@ export class RepositoryService {
         phone: "", 
         email: ""
       },
+      comment: "",
       items: [{
         id: Date.now(),
         price: 1,
@@ -208,7 +209,18 @@ export class RepositoryService {
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
 
-    quotes[quoteIndex].customerInfo = {firstName, lastName, address, phone, email}
+    quotes[quoteIndex].customerInfo = {firstName, lastName, address, phone, email};
+    this.updateQuoteTotal(quotes[quoteIndex]);
+    this.saveQuotes(quotes);
+    return quotes[quoteIndex];
+  }
+
+  updateQuoteComment(quoteID: number, comment: string): Quote {
+    const quotes = this.getStoredQuotes();
+    const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
+    if (quoteIndex === -1) throw new Error('Quote not found');
+
+    quotes[quoteIndex].comment = comment;
     this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];

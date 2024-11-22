@@ -30,7 +30,6 @@ export interface QuoteItem {
   color: Color,
   quantity: number,
   price: number,
-
   glassType: string,
   glassOA: string,
   glassThickness: string,
@@ -50,6 +49,7 @@ export interface Quote {
   taxAmount: number,
   discount: number,
   total: number,
+  comment: string,
   customerInfo: {
     firstName: string;
     lastName: string;

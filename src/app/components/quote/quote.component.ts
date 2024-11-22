@@ -33,6 +33,8 @@ export class QuoteComponent {
   customerPhoneFormControl = new FormControl("");
   customerEmailFormControl = new FormControl("");
 
+  commentFormControl?: FormControl;
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private repoService: RepositoryService,
@@ -48,6 +50,20 @@ export class QuoteComponent {
     }
 
     this.quote = quote;
+  }
+
+  startCommentEdit() {
+    this.commentFormControl = this.fb.control(this.quote!.comment);
+  }
+
+  cancelCommentEdit() {
+    this.commentFormControl = undefined;
+  }
+
+  saveComment() {
+    this.quote!.comment = this.commentFormControl!.value!;
+    this.repoService.updateQuoteComment(this.quote!.id, this.commentFormControl!.value!);
+    this.cancelCommentEdit();
   }
 
   startCustomerEditing() {
