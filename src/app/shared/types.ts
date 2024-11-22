@@ -37,6 +37,7 @@ export interface QuoteItem {
   frameType: string,
   gridType: string,
   gridSize: string,
+  title: string,
 }
 
 export interface Quote {

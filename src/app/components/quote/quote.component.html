@@ -63,18 +63,41 @@
 
         <div style="font-size: 12px;">
 
-          <div style="font-size: 17px;">{{item.subStyle.name}}</div>
+          
+          <ng-container *ngIf="!itemTitleControls[item.id]; else editTitle">
+             <div style="font-size: 17px;">
+             {{item.title}}
+             <mat-icon class="icon-button ml-2" (click)="startEditItemTitle(item)">edit</mat-icon>
+           </div>
+            
+          </ng-container>
 
-          <br>
+          <ng-template #editTitle>
 
-          <div><b>RO Width</b>: {{getDimensionString(item.dimensions[0])}}"</div>
-          <div><b>RO Height</b>: {{getDimensionString(item.dimensions[1])}}"</div>
-          <div *ngIf="item.subStyle.extraDimension != undefined"><b>RO {{item.subStyle.extraDimension}}</b>: {{getDimensionString(item.dimensions[2])}}"</div>
+            <div>
+              <input [formControl]="itemTitleControls[item.id]" style="width: 250px;">
+              <mat-icon class="icon-button ml-1" (click)="saveItemTitle(item)">check</mat-icon>
+              <mat-icon class="icon-button ml-1" (click)="cancelEditItemTitle(item)">cancel</mat-icon>
+            </div>
 
-          <div class="mt-2"><b>Frame</b>: {{item.frameType}}</div>
+          </ng-template>
+
 
           <div fxLayout="row" class="mt-2">
-            <div fxLayout="column" style="justify-content: center;"><b>Glass</b></div>
+            <div fxLayout="column" style="justify-content: start;"><b>Exact Size</b></div>
+            <div fxLayout="column" class="ml-2">
+              <div fxLayout="row">Width: {{getDimensionString(item.dimensions[0])}}</div>
+              <div fxLayout="row">Height: {{getDimensionString(item.dimensions[1])}}"</div>
+              <div fxLayout="row" *ngIf="item.subStyle.extraDimension != undefined">
+                {{item.subStyle.extraDimension}}: 
+                {{getDimensionString(item.dimensions[2])}}"</div>
+            </div>
+          </div>
+
+          <div class="mt-2"><b>Frame</b> {{item.frameType}}</div>
+
+          <div fxLayout="row" class="mt-2">
+            <div fxLayout="column" style="justify-content: start;"><b>Glass</b></div>
             <div fxLayout="column" class="ml-2">
               <div fxLayout="row">Type: {{item.glassType}}</div>
               <div fxLayout="row">OA: {{item.glassOA}}"</div>

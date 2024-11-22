@@ -19,6 +19,7 @@ export class QuoteComponent {
 
   quote?: Quote;
   itemPriceControls: { [key: number]: FormControl } = {};
+  itemTitleControls: { [key: number]: FormControl } = {};
   discountControl?: FormControl;
   taxControl?: FormControl;
   quoteIDFormControl?: FormControl;
@@ -156,6 +157,23 @@ export class QuoteComponent {
       item.price = Number(control.value);
       this.updateQuoteItem(item);
       this.cancelEditItemPrice(item);
+    }
+  }
+
+  cancelEditItemTitle(item: QuoteItem) {
+    delete this.itemTitleControls[item.id];
+  }
+
+  startEditItemTitle(item: QuoteItem) {
+    this.itemTitleControls[item.id] = new FormControl(item.title);
+  }
+
+  saveItemTitle(item: QuoteItem) {
+    const control = this.itemTitleControls[item.id];
+    if (control && control.valid) {
+      item.title = control.value!;
+      this.updateQuoteItem(item);
+      this.cancelEditItemTitle(item);
     }
   }
 
@@ -346,20 +364,21 @@ export class QuoteComponent {
     }
 
     pdf.setFontSize(12);
-    pdf.text(`${item.style.name}, ${item.subStyle.name}`, 60, yOffset + 5);
+    // pdf.text(`${item.style.name}, ${item.subStyle.name}`, 60, yOffset + 5);
+    pdf.text(`${item.title}`, 60, yOffset + 5);
 
     yOffset += 12;
 
     pdf.setFontSize(10);
 
-    let RO = `${item.dimensions[0].base} ${item.dimensions[0].fraction}" x ${item.dimensions[1].base} ${item.dimensions[1].fraction}"`;
+    let ES = `${item.dimensions[0].base} ${item.dimensions[0].fraction}" x ${item.dimensions[1].base} ${item.dimensions[1].fraction}"`;
 
     if (item.subStyle.extraDimension !== undefined) {
-      RO += ` x ${item.dimensions[2].base} ${item.dimensions[2].fraction}"`
+      ES += ` x ${item.dimensions[2].base} ${item.dimensions[2].fraction}"`
     }
 
     const itemDetails = [
-      `Rough Opening: ${RO}`,
+      `Exact Size: ${ES}`,
       `Frame: ${item.frameType}`,
       `Glass Type: ${item.glassType}`,
       `Glass OA: ${item.glassOA}"`,

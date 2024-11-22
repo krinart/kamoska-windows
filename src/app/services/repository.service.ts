@@ -64,7 +64,8 @@ export class RepositoryService {
         glassSpaceColor,
         frameType,
         gridType,
-        gridSize
+        gridSize,
+        title: subStyle.name
       }],
       tax: DEFAULT_SALES_TAX,
       taxAmount: 0,
@@ -110,7 +111,8 @@ export class RepositoryService {
       glassSpaceColor,
       frameType,
       gridType,
-      gridSize
+      gridSize,
+      title: subStyle.name
     };
     quotes[quoteIndex].items.push(newItem);
     this.updateQuoteTotal(quotes[quoteIndex]);
@@ -147,6 +149,7 @@ export class RepositoryService {
   }
 
   updateItem(quoteID: number, item: QuoteItem): Quote {
+    console.log(item);
     const quotes = this.getStoredQuotes();
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
