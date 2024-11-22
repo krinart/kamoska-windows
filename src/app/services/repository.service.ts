@@ -37,9 +37,18 @@ export class RepositoryService {
 
   createQuote(style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
     const quotes = this.getStoredQuotes();
+    const id = Number(new Date());
     const newQuote: Quote = {
-      id: Date.now(),
+      id: id,
+      customID: String(id),
       createdAt: new Date(),
+      customerInfo: {
+        firstName: "", 
+        lastName: "", 
+        address: "", 
+        phone: "", 
+        email: ""
+      },
       items: [{
         id: Date.now(),
         price: 1,
@@ -178,6 +187,28 @@ export class RepositoryService {
     if (quoteIndex === -1) throw new Error('Quote not found');
 
     quotes[quoteIndex].discount = Number(discount);
+    this.updateQuoteTotal(quotes[quoteIndex]);
+    this.saveQuotes(quotes);
+    return quotes[quoteIndex];
+  }
+
+  updateQuoteCustomID(quoteID: number, customID: string): Quote {
+    const quotes = this.getStoredQuotes();
+    const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
+    if (quoteIndex === -1) throw new Error('Quote not found');
+
+    quotes[quoteIndex].customID = customID;
+    this.updateQuoteTotal(quotes[quoteIndex]);
+    this.saveQuotes(quotes);
+    return quotes[quoteIndex];
+  }
+
+  updateQuoteCustomerInfo(quoteID: number, firstName: string, lastName: string, address: string, phone: string, email: string): Quote {
+    const quotes = this.getStoredQuotes();
+    const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
+    if (quoteIndex === -1) throw new Error('Quote not found');
+
+    quotes[quoteIndex].customerInfo = {firstName, lastName, address, phone, email}
     this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);
     return quotes[quoteIndex];

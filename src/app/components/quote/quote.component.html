@@ -17,7 +17,28 @@
       </div>
 
       <div>
-        <b>Quote Created</b>: <span style="text-decoration: underline;">{{getQuoteDate(quote)}}</span>
+          <div>
+            <b>Quote Created</b>: <span style="text-decoration: underline;">{{getQuoteDate(quote)}}</span>
+          </div>
+
+        <ng-container *ngIf="!quoteIDFormControl; else editQuoteID">
+          <div>
+            <b>Quote ID</b>: 
+            {{quote.customID}}
+            <mat-icon class="icon-button ml-2" (click)="startEditQuoteID()">edit</mat-icon>
+          </div>
+        </ng-container>
+
+        <ng-template #editQuoteID>
+          <div>
+            <input [formControl]="quoteIDFormControl!">
+            <mat-icon class="icon-button ml-1" (click)="saveQuoteID()">check</mat-icon>
+            <mat-icon class="icon-button ml-1" (click)="cancelQuoteID()">cancel</mat-icon>
+            <div *ngIf="quoteIDFormControl!.invalid && (quoteIDFormControl!.dirty || quoteIDFormControl!.touched)" class="error-message">
+              {{ getErrorMessage(quoteIDFormControl!) }}
+            </div>
+          </div>
+        </ng-template>
       </div>
     </div>
 
@@ -134,6 +155,39 @@
       <mat-icon>add</mat-icon>
       Add Item
     </button>
+
+    <h3 class="mt-5">
+      Customer Info
+      <ng-container *ngIf="!customerEditing; else editCustomerBtns">
+        <mat-icon class="icon-button ml-2" (click)="startCustomerEditing()">edit</mat-icon>
+      </ng-container>
+      <ng-template #editCustomerBtns>
+        <mat-icon class="icon-button ml-1" (click)="saveCustomerInfo()">check</mat-icon>
+        <mat-icon class="icon-button ml-1" (click)="cancelCustomerEditing()">cancel</mat-icon>
+      </ng-template>
+      
+    </h3> 
+    
+    <div class="customer-info">
+      <ng-container *ngIf="!customerEditing; else editCustomer">
+        First Name: {{quote.customerInfo.firstName}} <br>
+        Last Name: {{quote.customerInfo.lastName}} <br>
+        Address: {{quote.customerInfo.address}} <br>
+        Phone: {{quote.customerInfo.phone}} <br>
+        Email: {{quote.customerInfo.email}} <br>
+      </ng-container>
+      <ng-template #editCustomer>
+        <div class="customer-info-edit">
+          <div>First Name: <input [formControl]="customerFirstNameFormControl!"> </div>
+          <div>Last Name: <input [formControl]="customerLastNameFormControl!"> </div>
+          <div>Address: <input style="width: 400px;" [formControl]="customerAddressFormControl!"> </div>
+          <div>Phone: <input [formControl]="customerPhoneFormControl!"> </div>
+          <div>Email: <input [formControl]="customerEmailFormControl!"> </div>
+        </div>
+      </ng-template>
+    </div>
+
+    
 
     <h3 class="mt-5">Summary</h3>
 

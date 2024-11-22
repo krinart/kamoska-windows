@@ -21,9 +21,17 @@ export class QuoteComponent {
   itemPriceControls: { [key: number]: FormControl } = {};
   discountControl?: FormControl;
   taxControl?: FormControl;
+  quoteIDFormControl?: FormControl;
 
   datepipe: DatePipe = new DatePipe('en-US');
   currency: CurrencyPipe = new CurrencyPipe('en-US');
+
+  customerEditing = false;
+  customerFirstNameFormControl = new FormControl("");
+  customerLastNameFormControl = new FormControl("");
+  customerAddressFormControl = new FormControl("");
+  customerPhoneFormControl = new FormControl("");
+  customerEmailFormControl = new FormControl("");
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -40,7 +48,66 @@ export class QuoteComponent {
     }
 
     this.quote = quote;
-    console.log('quote', this.quote);
+  }
+
+  startCustomerEditing() {
+    this.customerEditing = true;
+    this.customerFirstNameFormControl.setValue(this.quote!.customerInfo.firstName);
+    this.customerLastNameFormControl.setValue(this.quote!.customerInfo.lastName);
+    this.customerAddressFormControl.setValue(this.quote!.customerInfo.address);
+    this.customerPhoneFormControl.setValue(this.quote!.customerInfo.phone);
+    this.customerEmailFormControl.setValue(this.quote!.customerInfo.email);
+  }
+
+  cancelCustomerEditing() {
+    this.customerEditing = false;
+  }
+
+  saveCustomerInfo() {
+    console.log(this.customerFirstNameFormControl.valid &&
+        this.customerLastNameFormControl.valid &&
+        this.customerAddressFormControl.valid &&
+        this.customerPhoneFormControl.valid &&
+        this.customerEmailFormControl.valid);
+    if (this.customerFirstNameFormControl.valid &&
+        this.customerLastNameFormControl.valid &&
+        this.customerAddressFormControl.valid &&
+        this.customerPhoneFormControl.valid &&
+        this.customerEmailFormControl.valid) {
+      this.repoService.updateQuoteCustomerInfo(this.quote!.id, 
+        this.customerFirstNameFormControl.value!,
+        this.customerLastNameFormControl.value!,
+        this.customerAddressFormControl.value!,
+        this.customerPhoneFormControl.value!,
+        this.customerEmailFormControl.value!);
+
+      this.quote!.customerInfo.firstName = this.customerFirstNameFormControl.value!;
+      this.quote!.customerInfo.lastName = this.customerLastNameFormControl.value!;
+      this.quote!.customerInfo.address = this.customerAddressFormControl.value!;
+      this.quote!.customerInfo.phone = this.customerPhoneFormControl.value!;
+      this.quote!.customerInfo.email = this.customerEmailFormControl.value!;
+
+      this.cancelCustomerEditing();
+    }
+  }
+
+  startEditQuoteID() {
+    this.quoteIDFormControl = this.fb.control(
+      this.quote!.customID,
+      [Validators.required],
+    );
+  }
+
+  cancelQuoteID() {
+    this.quoteIDFormControl = undefined;
+  }
+
+  saveQuoteID() {
+    if (this.quoteIDFormControl && this.quoteIDFormControl.valid) {
+      this.quote!.customID = this.quoteIDFormControl.value;
+      this.repoService.updateQuoteCustomID(this.quote!.id, this.quoteIDFormControl.value);
+      this.cancelQuoteID();
+    }
   }
 
   deleteItem(itemID: number) {
@@ -189,15 +256,42 @@ export class QuoteComponent {
     // Quote details
     pdf.setFontSize(10);
 
-    pdf.text(`Created Date: ${this.datepipe.transform(this.quote.createdAt, 'dd MMMM, yyyy')}`, 14, yOffset);
+    pdf.text(`Quote ID: ${this.quote.customID}`, 14, yOffset);
+    pdf.text(`Created Date: ${this.datepipe.transform(this.quote.createdAt, 'dd MMMM, yyyy')}`, 14, yOffset+5);
 
-    yOffset += 20;
+    yOffset += 25;
 
     // Items
     for (let i = 0; i < this.quote.items.length; i++) {
       yOffset = await this.addItemToPDF(pdf, this.quote.items[i], i + 1, yOffset);
     }
 
+    // Customer Info
+    pdf.setFontSize(12);
+    pdf.text(`Customer Info:`, 14, yOffset);
+    yOffset += 7;
+
+    if (this.quote.customerInfo.firstName !== "") {
+        pdf.text(`First Name: ${this.quote.customerInfo.firstName}`, 14, yOffset);
+        yOffset += 7;
+    }
+    if (this.quote.customerInfo.lastName !== "") {
+        pdf.text(`First Name: ${this.quote.customerInfo.lastName}`, 14, yOffset);
+        yOffset += 7;
+    }
+    if (this.quote.customerInfo.address !== "") {
+        pdf.text(`Address: ${this.quote.customerInfo.address}`, 14, yOffset);
+        yOffset += 7;
+    }
+    if (this.quote.customerInfo.phone !== "") {
+        pdf.text(`Phone: ${this.quote.customerInfo.phone}`, 14, yOffset);
+        yOffset += 7;
+    }
+    if (this.quote.customerInfo.email !== "") {
+        pdf.text(`Email: ${this.quote.customerInfo.email}`, 14, yOffset);
+        yOffset += 7;
+    }
+    
     // Footer
     pdf.setFontSize(12);
     yOffset += 20;
@@ -206,7 +300,7 @@ export class QuoteComponent {
     pdf.text(`Tax: ${this.formatPrice(this.quote.taxAmount)} (${this.quote.tax}%)`, 14, yOffset+14);
     pdf.text(`Total: ${this.formatPrice(this.quote.total)}`, 14, yOffset+21);
 
-    pdf.save(`Quote_${this.quote.id}.pdf`);
+    pdf.save(`Quote_${this.quote.customID}.pdf`);
   }
 
   private async addItemToPDF(pdf: jsPDF, item: QuoteItem, lineNumber: number, yOffset: number): Promise<number> {

@@ -42,6 +42,7 @@ export interface QuoteItem {
 
 export interface Quote {
   id: number,
+  customID: string;
   createdAt: Date,
   items: QuoteItem[],
   subtotal: number,
@@ -49,4 +50,11 @@ export interface Quote {
   taxAmount: number,
   discount: number,
   total: number,
+  customerInfo: {
+    firstName: string;
+    lastName: string;
+    address: string;
+    phone: string;
+    email: string;
+  }
 }
