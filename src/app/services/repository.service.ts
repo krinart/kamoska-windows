@@ -18,9 +18,34 @@ export class RepositoryService {
     this.storage.setItem(this.QUOTES_KEY, JSON.stringify(quotes));
   }
 
+  private applyFixes(quote: Quote): Quote {
+    if (quote.customerInfo === undefined) {
+        quote.customerInfo = {
+            firstName: "", 
+            lastName: "", 
+            address: "", 
+            phone: "", 
+            email: "",
+        }
+    }
+
+    if (quote.customID === undefined) {
+      quote.customID = String(quote.id);
+    }
+
+    for (const item of quote.items) {
+      if (item.title === undefined) {
+        item.title = item.subStyle.name;
+      }
+    }
+
+    return quote;
+  }
+
   private getStoredQuotes(): Quote[] {
     const quotesString = this.storage.getItem(this.QUOTES_KEY);
-    return quotesString ? JSON.parse(quotesString) : [];
+    const quotes = quotesString ? JSON.parse(quotesString) : [];
+    return quotes.map(this.applyFixes);
   }
 
   private updateQuoteTotal(quote: Quote) {
