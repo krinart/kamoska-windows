@@ -37,6 +37,10 @@ export class RepositoryService {
       if (item.title === undefined) {
         item.title = item.subStyle.name;
       }
+
+      if (item.glassSpaceColor == "White") {
+        item.glassSpaceColor = "Silver";
+      }
     }
 
     return quote;
@@ -60,7 +64,7 @@ export class RepositoryService {
     // return Number(total.toFixed(2)); // Round to 2 decimal places
   }
 
-  createQuote(style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
+  createQuote(style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string): Quote {
     const quotes = this.getStoredQuotes();
     const id = Number(new Date());
     const newQuote: Quote = {
@@ -90,7 +94,9 @@ export class RepositoryService {
         frameType,
         gridType,
         gridSize,
-        title: subStyle.name
+        title: subStyle.name,
+        frameExteriorColor,
+        frameInteriorColor,
       }],
       tax: DEFAULT_SALES_TAX,
       taxAmount: 0,
@@ -117,7 +123,7 @@ export class RepositoryService {
     this.saveQuotes(quotes);
   }
 
-  addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
+  addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string): Quote {
     const quotes = this.getStoredQuotes();
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
@@ -137,7 +143,9 @@ export class RepositoryService {
       frameType,
       gridType,
       gridSize,
-      title: subStyle.name
+      title: subStyle.name,
+      frameExteriorColor,
+      frameInteriorColor,
     };
     quotes[quoteIndex].items.push(newItem);
     this.updateQuoteTotal(quotes[quoteIndex]);
@@ -145,7 +153,7 @@ export class RepositoryService {
     return quotes[quoteIndex];
   }
 
-  updateItemRaw(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string): Quote {
+  updateItemRaw(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string): Quote {
     const quotes = this.getStoredQuotes();
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
@@ -166,7 +174,8 @@ export class RepositoryService {
       glassSpaceColor,
       frameType,
       gridType,
-      gridSize
+      gridSize,
+      frameExteriorColor,frameInteriorColor,
     };
     this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);

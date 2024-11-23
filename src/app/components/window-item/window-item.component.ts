@@ -28,6 +28,8 @@ export class WindowItemComponent {
   glassThickness = new FormControl("");
   glassSpaceColor = new FormControl("");
   frameType = new FormControl("");
+  frameExteriorColor = new FormControl("");
+  frameInteriorColor = new FormControl("");
   gridType = new FormControl("");
   gridSize = new FormControl("");
 
@@ -92,6 +94,8 @@ export class WindowItemComponent {
       this.frameType.setValue(item.frameType);
       this.gridType.setValue(item.gridType);
       this.gridSize.setValue(item.gridSize);
+      this.frameExteriorColor.setValue(item.frameExteriorColor);
+      this.frameInteriorColor.setValue(item.frameInteriorColor);
     }
   }
 
@@ -230,6 +234,8 @@ export class WindowItemComponent {
         this.frameType.getRawValue()!,
         this.gridType.getRawValue()!,
         this.gridSize.getRawValue()!,
+        this.frameExteriorColor.getRawValue()!,
+        this.frameInteriorColor.getRawValue()!,
       );
 
       this.router.navigate(['/quote', quote.id]);
@@ -253,6 +259,8 @@ export class WindowItemComponent {
         this.frameType.getRawValue()!,
         this.gridType.getRawValue()!,
         this.gridSize.getRawValue()!,
+        this.frameExteriorColor.getRawValue()!,
+        this.frameInteriorColor.getRawValue()!,
       );
       this.router.navigate(['/quote', this.quoteID]);
       return;
@@ -273,6 +281,8 @@ export class WindowItemComponent {
       this.frameType.getRawValue()!,
       this.gridType.getRawValue()!,
       this.gridSize.getRawValue()!,
+      this.frameExteriorColor.getRawValue()!,
+      this.frameInteriorColor.getRawValue()!,
     )
     this.router.navigate(['/quote', this.quoteID]);
 

@@ -8,6 +8,17 @@ import {AbstractControl, FormBuilder, FormControl, ValidationErrors, Validators}
 
 import { jsPDF } from "jspdf";
 
+interface TextConfig {
+    startX: number;
+    startY: number;
+    maxWidth: number;
+    lineHeight?: number;
+}
+
+interface PrintResult {
+    finalY: number;
+    pageCount: number;
+}
 
 
 @Component({
@@ -300,11 +311,30 @@ export class QuoteComponent {
       yOffset = await this.addItemToPDF(pdf, this.quote.items[i], i + 1, yOffset);
     }
 
-    // Customer Info
     pdf.setFontSize(12);
-    pdf.text(`Customer Info:`, 14, yOffset);
-    yOffset += 7;
 
+    // Comments
+    if (this.quote.comment != "") {
+      pdf.text(`Comments`, 14, yOffset);
+      const result = this.printPDFText(pdf, this.quote.comment, {
+          startX: 14,
+          startY: yOffset+7,
+          maxWidth: 170, // Maximum width in points (slightly less than page width)
+          lineHeight: 7
+      });
+      
+      // yOffset += 15;  
+      yOffset = result.finalY + 15;
+    }
+
+    // Customer Info
+    if (this.quote.customerInfo.firstName != "" || this.quote.customerInfo.lastName != "" || 
+      this.quote.customerInfo.address != "" || this.quote.customerInfo.phone != "" || 
+      this.quote.customerInfo.email != "") {
+      pdf.text(`Customer Info`, 14, yOffset);
+      yOffset += 7;  
+    }
+    
     if (this.quote.customerInfo.firstName !== "") {
         pdf.text(`First Name: ${this.quote.customerInfo.firstName}`, 14, yOffset);
         yOffset += 7;
@@ -335,6 +365,78 @@ export class QuoteComponent {
     pdf.text(`Total: ${this.formatPrice(this.quote.total)}`, 14, yOffset+21);
 
     pdf.save(`Quote_${this.quote.customID}.pdf`);
+  }
+
+  private printPDFText(
+      doc: jsPDF, 
+      text: string, 
+      config: TextConfig
+  ): PrintResult {
+      const { 
+          startX, 
+          startY, 
+          maxWidth,
+          lineHeight = 10 
+      } = config;
+
+      // Split text into paragraphs by newline
+      const paragraphs: string[] = text.split(/\r?\n/);
+      let y: number = startY;
+      let pageCount: number = 1;
+
+      // Process each paragraph
+      for (let p = 0; p < paragraphs.length; p++) {
+          const paragraph = paragraphs[p];
+          
+          // Split the paragraph into words
+          const words: string[] = paragraph.split(' ');
+          let currentLine: string = '';
+
+          // Process each word in the paragraph
+          for (let i = 0; i < words.length; i++) {
+              const word: string = words[i];
+              const testLine: string = currentLine + (currentLine ? ' ' : '') + word;
+              const testWidth: number = doc.getTextWidth(testLine);
+
+              if (testWidth > maxWidth) {
+                  // Print current line and move to next line
+                  doc.text(currentLine, startX, y);
+                  currentLine = word;
+                  y += lineHeight;
+
+                  // Add new page if needed
+                  if (y > doc.internal.pageSize.height - 20) {
+                      doc.addPage();
+                      pageCount++;
+                      y = 20; // Reset Y to top of new page with margin
+                  }
+              } else {
+                  currentLine = testLine;
+              }
+          }
+
+          // Print the last line of the paragraph
+          if (currentLine.trim().length > 0) {
+              doc.text(currentLine, startX, y);
+          }
+
+          // Add space between paragraphs (only if not the last paragraph)
+          if (p < paragraphs.length - 1) {
+              y += lineHeight;
+
+              // Check if we need a new page for the next paragraph
+              if (y > doc.internal.pageSize.height - 20) {
+                  doc.addPage();
+                  pageCount++;
+                  y = 20;
+              }
+          }
+      }
+
+      return {
+          finalY: y,
+          pageCount
+      };
   }
 
   private async addItemToPDF(pdf: jsPDF, item: QuoteItem, lineNumber: number, yOffset: number): Promise<number> {
@@ -379,7 +481,9 @@ export class QuoteComponent {
 
     const itemDetails = [
       `Exact Size: ${ES}`,
-      `Frame: ${item.frameType}`,
+      `Frame Type: ${item.frameType}`,
+      `Frame Exterior Color: ${item.frameExteriorColor}`,
+      `Frame Interior Color: ${item.frameInteriorColor}`,
       `Glass Type: ${item.glassType}`,
       `Glass OA: ${item.glassOA}"`,
       `Glass Thickness: ${item.glassThickness}"`,

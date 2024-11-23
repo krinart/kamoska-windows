@@ -82,9 +82,8 @@
 
           </ng-template>
 
-
           <div fxLayout="row" class="mt-2">
-            <div fxLayout="column" style="justify-content: start;"><b>Exact Size</b></div>
+            <div fxLayout="column" style="justify-content: start; width: 70px;"><b>Exact Size</b></div>
             <div fxLayout="column" class="ml-2">
               <div fxLayout="row">Width: {{getDimensionString(item.dimensions[0])}}</div>
               <div fxLayout="row">Height: {{getDimensionString(item.dimensions[1])}}"</div>
@@ -94,10 +93,10 @@
             </div>
           </div>
 
-          <div class="mt-2"><b>Frame</b> {{item.frameType}}</div>
+          <mat-divider style="width: 300px;" class="mt-2 mb-2"></mat-divider>
 
           <div fxLayout="row" class="mt-2">
-            <div fxLayout="column" style="justify-content: start;"><b>Glass</b></div>
+            <div fxLayout="column" style="justify-content: start; width: 70px;"><b>Glass</b></div>
             <div fxLayout="column" class="ml-2">
               <div fxLayout="row">Type: {{item.glassType}}</div>
               <div fxLayout="row">OA: {{item.glassOA}}"</div>
@@ -106,14 +105,26 @@
             </div>
           </div>
 
+          <mat-divider style="width: 300px;" class="mt-2 mb-2"></mat-divider>
+
           <div fxLayout="row" class="mt-2">
-            <div fxLayout="column" style="justify-content: center;"><b>Grid</b></div>
-            <div fxLayout="column" class="ml-3">
+            <div fxLayout="column" style="justify-content: start; width: 70px;"><b>Frame</b></div>
+            <div fxLayout="column" class="ml-2">
+              <div fxLayout="row">Type: {{item.frameType}}</div>
+              <div fxLayout="row">Exterior Color: {{item.frameExteriorColor}}</div>
+              <div fxLayout="row">Interior Color: {{item.frameInteriorColor}}</div>
+            </div>
+          </div>
+
+          <mat-divider style="width: 300px;" class="mt-2 mb-2"></mat-divider>
+
+          <div fxLayout="row" class="mt-2">
+            <div fxLayout="column" style="justify-content: center; width: 70px;"><b>Grid</b></div>
+            <div fxLayout="column" class="ml-2">
               <div fxLayout="row">Type: {{item.gridType}}</div>
               <div *ngIf="item.gridType != 'None'" fxLayout="row">Size: {{item.gridSize}}"</div>
             </div>
           </div>
-
         </div>
 
         <div fxLayout="row">
@@ -191,7 +202,7 @@
     </h3> 
     
     <div *ngIf="!commentFormControl; else editComment">
-      {{this.quote.comment}}
+      <pre>{{this.quote.comment}}</pre>
     </div>
     <ng-template #editComment>
       <textarea [formControl]="commentFormControl!" style="width: 600px; height: 150px;"></textarea>

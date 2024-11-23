@@ -168,7 +168,7 @@
 
       <mat-radio-group [formControl]="glassSpaceColor" class="ml-2">
         <mat-radio-button value="Black" class="ml-1">Black</mat-radio-button>
-        <mat-radio-button value="White" class="ml-2">White</mat-radio-button>
+        <mat-radio-button value="Silver" class="ml-2">Silver</mat-radio-button>
       </mat-radio-group>
 
     </div>
@@ -208,6 +208,30 @@
 
 
       </div>
+    </div>
+
+    <div fxLayout="row" style="width: 500px; margin: 20px auto;">
+      <b class="mt-2">Exterior Color:</b>
+
+      <mat-radio-group [formControl]="frameExteriorColor">
+        <mat-radio-button value="White">White</mat-radio-button>
+        <mat-radio-button value="Black">Black</mat-radio-button>
+        <mat-radio-button value="Tan">Tan</mat-radio-button>
+        <mat-radio-button value="Dark Bronze">Dark Bronze</mat-radio-button>
+      </mat-radio-group>
+
+    </div>
+
+    <div fxLayout="row" style="width: 500px; margin: 20px auto;">
+      <b class="mt-2">Interior Color:</b>
+
+      <mat-radio-group [formControl]="frameInteriorColor">
+        <mat-radio-button value="White">White</mat-radio-button>
+        <mat-radio-button value="Black">Black</mat-radio-button>
+        <mat-radio-button value="Tan">Tan</mat-radio-button>
+        <mat-radio-button value="Dark Bronze">Dark Bronze</mat-radio-button>
+      </mat-radio-group>
+
     </div>
 
   </div>
