@@ -314,7 +314,7 @@ export class QuoteComponent {
     pdf.setFontSize(12);
 
     // Comments
-    if (this.quote.comment != "") {
+    if (this.quote.comment != "" && this.quote.comment !== undefined) {
       pdf.text(`Comments`, 14, yOffset);
       const result = this.printPDFText(pdf, this.quote.comment, {
           startX: 14,
