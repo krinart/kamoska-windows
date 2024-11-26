@@ -304,7 +304,38 @@ export class QuoteComponent {
     pdf.text(`Quote ID: ${this.quote.customID}`, 14, yOffset);
     pdf.text(`Created Date: ${this.datepipe.transform(this.quote.createdAt, 'dd MMMM, yyyy')}`, 14, yOffset+5);
 
-    yOffset += 25;
+    yOffset += 15;
+
+    // Customer Info
+    if (this.quote.customerInfo.firstName != "" || this.quote.customerInfo.lastName != "" || 
+      this.quote.customerInfo.address != "" || this.quote.customerInfo.phone != "" || 
+      this.quote.customerInfo.email != "") {
+      pdf.text(`Customer Info:`, 14, yOffset);
+      yOffset += 5;  
+    }
+    
+    if (this.quote.customerInfo.firstName !== "") {
+        pdf.text(`First Name: ${this.quote.customerInfo.firstName}`, 14, yOffset);
+        yOffset += 5;
+    }
+    if (this.quote.customerInfo.lastName !== "") {
+        pdf.text(`First Name: ${this.quote.customerInfo.lastName}`, 14, yOffset);
+        yOffset += 5;
+    }
+    if (this.quote.customerInfo.address !== "") {
+        pdf.text(`Address: ${this.quote.customerInfo.address}`, 14, yOffset);
+        yOffset += 5;
+    }
+    if (this.quote.customerInfo.phone !== "") {
+        pdf.text(`Phone: ${this.quote.customerInfo.phone}`, 14, yOffset);
+        yOffset += 5;
+    }
+    if (this.quote.customerInfo.email !== "") {
+        pdf.text(`Email: ${this.quote.customerInfo.email}`, 14, yOffset);
+        yOffset += 5;
+    }
+
+    yOffset += 15;
 
     // Items
     for (let i = 0; i < this.quote.items.length; i++) {
@@ -327,35 +358,6 @@ export class QuoteComponent {
       yOffset = result.finalY + 15;
     }
 
-    // Customer Info
-    if (this.quote.customerInfo.firstName != "" || this.quote.customerInfo.lastName != "" || 
-      this.quote.customerInfo.address != "" || this.quote.customerInfo.phone != "" || 
-      this.quote.customerInfo.email != "") {
-      pdf.text(`Customer Info`, 14, yOffset);
-      yOffset += 7;  
-    }
-    
-    if (this.quote.customerInfo.firstName !== "") {
-        pdf.text(`First Name: ${this.quote.customerInfo.firstName}`, 14, yOffset);
-        yOffset += 7;
-    }
-    if (this.quote.customerInfo.lastName !== "") {
-        pdf.text(`First Name: ${this.quote.customerInfo.lastName}`, 14, yOffset);
-        yOffset += 7;
-    }
-    if (this.quote.customerInfo.address !== "") {
-        pdf.text(`Address: ${this.quote.customerInfo.address}`, 14, yOffset);
-        yOffset += 7;
-    }
-    if (this.quote.customerInfo.phone !== "") {
-        pdf.text(`Phone: ${this.quote.customerInfo.phone}`, 14, yOffset);
-        yOffset += 7;
-    }
-    if (this.quote.customerInfo.email !== "") {
-        pdf.text(`Email: ${this.quote.customerInfo.email}`, 14, yOffset);
-        yOffset += 7;
-    }
-    
     // Footer
     pdf.setFontSize(12);
     yOffset += 20;
