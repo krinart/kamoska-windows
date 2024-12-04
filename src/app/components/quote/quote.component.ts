@@ -319,7 +319,7 @@ export class QuoteComponent {
         yOffset += 5;
     }
     if (this.quote.customerInfo.lastName !== "") {
-        pdf.text(`First Name: ${this.quote.customerInfo.lastName}`, 14, yOffset);
+        pdf.text(`Last Name: ${this.quote.customerInfo.lastName}`, 14, yOffset);
         yOffset += 5;
     }
     if (this.quote.customerInfo.address !== "") {
@@ -346,7 +346,7 @@ export class QuoteComponent {
 
     // Comments
     if (this.quote.comment != "" && this.quote.comment !== undefined) {
-      pdf.text(`Comments`, 14, yOffset);
+      pdf.text(`Comments:`, 14, yOffset);
       const result = this.printPDFText(pdf, this.quote.comment, {
           startX: 14,
           startY: yOffset+7,
@@ -361,10 +361,14 @@ export class QuoteComponent {
     // Footer
     pdf.setFontSize(12);
     yOffset += 20;
-    pdf.text(`Subtotal: ${this.formatPrice(this.quote.subtotal)}`, 14, yOffset);
-    pdf.text(`Discount: ${this.formatPrice(this.quote.discount)}`, 14, yOffset+7);
-    pdf.text(`Tax: ${this.formatPrice(this.quote.taxAmount)} (${this.quote.tax}%)`, 14, yOffset+14);
-    pdf.text(`Total: ${this.formatPrice(this.quote.total)}`, 14, yOffset+21);
+    pdf.text(`Subtotal: ${this.formatPrice(this.quote.subtotal)}`, 140, yOffset);
+    pdf.text(`Discount: ${this.formatPrice(this.quote.discount)}`, 140, yOffset+7);
+    pdf.text(`Tax: ${this.formatPrice(this.quote.taxAmount)} (${this.quote.tax}%)`, 140, yOffset+14);
+    pdf.text(`Total: ${this.formatPrice(this.quote.total)}`, 140, yOffset+21);
+
+    yOffset += 60; 
+    pdf.text(`Date: ____________________`, 20, yOffset);
+    pdf.text(`Customer Approval: _________________`, 100, yOffset);
 
     pdf.save(`Quote_${this.quote.customID}.pdf`);
   }
@@ -455,7 +459,7 @@ export class QuoteComponent {
     pdf.text(`Line: ${lineNumber}`, 14, yOffset);
     pdf.text(`Price Per Unit: ${this.formatPrice(item.price)}`, 55, yOffset);
     pdf.text(`Quantity: ${item.quantity}`, 120, yOffset);
-    pdf.text(`Subtotal: ${this.formatPrice(item.quantity * item.price)}`, 165, yOffset);
+    pdf.text(`Subtotal: ${this.formatPrice(item.quantity * item.price)}`, 160, yOffset);
 
     yOffset += 10;
 
