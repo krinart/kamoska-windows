@@ -358,15 +358,20 @@ export class QuoteComponent {
       yOffset = result.finalY + 15;
     }
 
-    // Footer
     pdf.setFontSize(12);
-    yOffset += 20;
+    yOffset += 10;
+
+    if (yOffset > 250) {
+      pdf.addPage();
+      yOffset = 40;
+    }
+
     pdf.text(`Subtotal: ${this.formatPrice(this.quote.subtotal)}`, 140, yOffset);
     pdf.text(`Discount: ${this.formatPrice(this.quote.discount)}`, 140, yOffset+7);
     pdf.text(`Tax: ${this.formatPrice(this.quote.taxAmount)} (${this.quote.tax}%)`, 140, yOffset+14);
     pdf.text(`Total: ${this.formatPrice(this.quote.total)}`, 140, yOffset+21);
 
-    yOffset += 60; 
+    yOffset += 50; 
     pdf.text(`Date: ____________________`, 20, yOffset);
     pdf.text(`Customer Approval: _________________`, 100, yOffset);
 
