@@ -34,11 +34,14 @@ export interface QuoteItem {
   glassOA: string,
   glassThickness: string,
   glassSpaceColor: string,
+  glassClearObscure: string,
   frameType: string,
-  gridType: string,
-  gridSize: string,
   frameExteriorColor: string,
   frameInteriorColor: string,
+  frameExteriorTrim: string, 
+  frameInteriorTrim: string,
+  gridType: string,
+  gridSize: string,
   title: string,
 }
 

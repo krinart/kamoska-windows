@@ -64,7 +64,9 @@ export class RepositoryService {
     // return Number(total.toFixed(2)); // Round to 2 decimal places
   }
 
-  createQuote(style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string): Quote {
+  createQuote(style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string,
+              glassClearObscure: string, frameExteriorTrim: string, frameInteriorTrim: string
+  ): Quote {
     const quotes = this.getStoredQuotes();
     const id = Number(new Date());
     const newQuote: Quote = {
@@ -91,12 +93,16 @@ export class RepositoryService {
         glassOA,
         glassThickness,
         glassSpaceColor,
+        glassClearObscure,
         frameType,
+        frameExteriorColor,
+        frameInteriorColor,
+        frameExteriorTrim,
+        frameInteriorTrim,
         gridType,
         gridSize,
         title: subStyle.name,
-        frameExteriorColor,
-        frameInteriorColor,
+        
       }],
       tax: DEFAULT_SALES_TAX,
       taxAmount: 0,
@@ -123,7 +129,9 @@ export class RepositoryService {
     this.saveQuotes(quotes);
   }
 
-  addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string): Quote {
+  addItemToQuote(quoteID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string,
+                 glassClearObscure: string, frameExteriorTrim: string, frameInteriorTrim: string
+  ): Quote {
     const quotes = this.getStoredQuotes();
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
@@ -140,12 +148,15 @@ export class RepositoryService {
       glassOA,
       glassThickness,
       glassSpaceColor,
+      glassClearObscure,
       frameType,
+      frameExteriorColor,
+      frameInteriorColor,
+      frameExteriorTrim,
+      frameInteriorTrim,
       gridType,
       gridSize,
       title: subStyle.name,
-      frameExteriorColor,
-      frameInteriorColor,
     };
     quotes[quoteIndex].items.push(newItem);
     this.updateQuoteTotal(quotes[quoteIndex]);
@@ -153,7 +164,9 @@ export class RepositoryService {
     return quotes[quoteIndex];
   }
 
-  updateItemRaw(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string): Quote {
+  updateItemRaw(quoteID: number, itemID: number, style: Style, subStyle: SubStyle, dimensions: DimensionValue[], color: Color, quantity: number, glassType: string, glassOA: string, glassThickness: string, glassSpaceColor: string, frameType: string, gridType: string, gridSize: string, frameExteriorColor: string,frameInteriorColor: string,
+                glassClearObscure: string, frameExteriorTrim: string, frameInteriorTrim: string
+  ): Quote {
     const quotes = this.getStoredQuotes();
     const quoteIndex = quotes.findIndex(quote => quote.id === quoteID);
     if (quoteIndex === -1) throw new Error('Quote not found');
@@ -172,10 +185,14 @@ export class RepositoryService {
       glassOA,
       glassThickness,
       glassSpaceColor,
+      glassClearObscure,
       frameType,
+      frameExteriorColor,
+      frameInteriorColor,
       gridType,
       gridSize,
-      frameExteriorColor,frameInteriorColor,
+      frameExteriorTrim,
+      frameInteriorTrim,
     };
     this.updateQuoteTotal(quotes[quoteIndex]);
     this.saveQuotes(quotes);

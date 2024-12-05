@@ -489,11 +489,14 @@ export class QuoteComponent {
       `Exact Size: ${ES}`,
       `Frame Type: ${item.frameType}`,
       `Frame Exterior Color: ${item.frameExteriorColor}`,
+      `Frame Exterior Trim: ${item.frameExteriorTrim}`,
       `Frame Interior Color: ${item.frameInteriorColor}`,
+      `Frame Interior Trim: ${item.frameInteriorTrim}`,
       `Glass Type: ${item.glassType}`,
       `Glass OA: ${item.glassOA}"`,
       `Glass Thickness: ${item.glassThickness}"`,
       `Glass Spacer Color: ${item.glassSpaceColor}`,
+      `Glass Clear/Obscure: ${item.glassClearObscure}`,
       `Grid Type: ${item.gridType}`,
     ];
 
