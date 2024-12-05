@@ -1,0 +1,40 @@
+<!-- 404.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Page Not Found</title>
+    <script>
+      (function() {
+        // Configuration
+        var baseHref = '/kamoska-windows/';
+        var pathSegmentsToKeep = baseHref.split('/').filter(p => p).length;
+
+        // Get current location
+        var loc = window.location;
+        
+        // Get the path segments after our base href
+        var remainingPath = loc.pathname.split('/').slice(pathSegmentsToKeep).join('/');
+        
+        // Construct the redirect URL
+        var newUrl = loc.protocol + '//' + loc.hostname + 
+                    (loc.port ? ':' + loc.port : '') +
+                    baseHref +                     // Add base href
+                    remainingPath +                // Add remaining path
+                    '?p=/' + remainingPath +       // Store original path as a parameter
+                    (loc.search ? '&q=' + loc.search.slice(1) : '') + // Preserve search params
+                    loc.hash;                      // Preserve hash fragment
+        
+        // Save the URL we're trying to access before redirecting
+        sessionStorage.setItem('redirect-url', newUrl);
+        
+        // Perform the redirect
+        window.location.replace(newUrl);
+      })();
+    </script>
+  </head>
+  <body>
+    <h1>Page Not Found</h1>
+    <p>Redirecting to homepage...</p>
+  </body>
+</html>
