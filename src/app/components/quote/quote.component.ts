@@ -451,7 +451,7 @@ export class QuoteComponent {
   }
 
   private async addItemToPDF(pdf: jsPDF, item: QuoteItem, lineNumber: number, yOffset: number): Promise<number> {
-    if (yOffset > 250) {
+    if (yOffset > 200) {
       pdf.addPage();
       yOffset = 20;
     }
