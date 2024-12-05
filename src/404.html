@@ -8,25 +8,31 @@
       (function() {
         // Configuration
         var baseHref = '/kamoska-windows/';
-        var pathSegmentsToKeep = baseHref.split('/').filter(p => p).length;
+        
+        // Check if we're already in a redirect (URL contains ?p=)
+        if (window.location.search.includes('?p=')) {
+          // We're already in a redirect, don't redirect again
+          return;
+        }
 
-        // Get current location
+        var pathSegmentsToKeep = baseHref.split('/').filter(p => p).length;
         var loc = window.location;
         
-        // Get the path segments after our base href
-        var remainingPath = loc.pathname.split('/').slice(pathSegmentsToKeep).join('/');
+        // Remove any duplicate base href segments from the path
+        var fullPath = loc.pathname;
+        var pattern = new RegExp(`^${baseHref}+`, 'g');
+        var cleanPath = fullPath.replace(pattern, baseHref);
         
-        // Construct the redirect URL
+        // Get the path segments after our base href
+        var remainingPath = cleanPath.split('/').slice(pathSegmentsToKeep).join('/');
+        
+        // Construct the redirect URL (only once)
         var newUrl = loc.protocol + '//' + loc.hostname + 
                     (loc.port ? ':' + loc.port : '') +
-                    baseHref +                     // Add base href
-                    remainingPath +                // Add remaining path
-                    '?p=/' + remainingPath +       // Store original path as a parameter
-                    (loc.search ? '&q=' + loc.search.slice(1) : '') + // Preserve search params
-                    loc.hash;                      // Preserve hash fragment
-        
-        // Save the URL we're trying to access before redirecting
-        sessionStorage.setItem('redirect-url', newUrl);
+                    baseHref +
+                    '?p=/' + remainingPath +
+                    (loc.search ? '&q=' + loc.search.slice(1) : '') +
+                    loc.hash;
         
         // Perform the redirect
         window.location.replace(newUrl);
