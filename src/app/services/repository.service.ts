@@ -47,7 +47,8 @@ export class RepositoryService {
   }
 
   private getStoredQuotes(): Quote[] {
-    const quotesString = this.storage.getItem(this.QUOTES_KEY);
+    // const quotesString = this.storage.getItem(this.QUOTES_KEY);
+    const quotesString = "";
     const quotes = quotesString ? JSON.parse(quotesString) : [];
     return quotes.map(this.applyFixes);
   }
